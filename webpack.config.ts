@@ -1,18 +1,30 @@
 import path from 'path'
 import webpack from 'webpack'
 import { VueLoaderPlugin } from 'vue-loader'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import server from './src/server'
 
 const config: webpack.Configuration = {
   mode: 'development',
   entry: path.resolve('src', 'client', 'index.ts'),
+
+  devServer: {
+    before: server,
+    stats: 'errors-warnings'
+  },
+
+  plugins: [
+    new VueLoaderPlugin(),
+    new HtmlWebpackPlugin({
+      template: path.resolve('src', 'client', 'index.html')
+    })
+  ],
 
   resolve: {
     alias: {
       '@components': path.resolve('src', 'client', 'components')
     }
   },
-
-  plugins: [new VueLoaderPlugin()],
 
   module: {
     rules: [
@@ -32,9 +44,7 @@ const config: webpack.Configuration = {
         test: /\.tsx?$/,
         use: {
           loader: 'ts-loader',
-          options: {
-            appendTsSuffixTo: [/\.vue$/]
-          }
+          options: { appendTsSuffixTo: [/\.vue$/] }
         }
       }
     ]

@@ -1,7 +1,6 @@
 {
   "vetur.format.scriptInitialIndent": true,
   "vetur.format.styleInitialIndent": true,
-  "vetur.validation.template": false,
   "[vue]": {
     "editor.defaultFormatter": "octref.vetur"
   },

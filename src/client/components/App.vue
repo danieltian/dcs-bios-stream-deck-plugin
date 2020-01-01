@@ -8,6 +8,14 @@
   @Component
   export default class App extends Vue {
     message = 'message'
+
+    testIf() {
+      if (this.message) {
+        return 'ok'
+      } else {
+        return 'no'
+      }
+    }
   }
 </script>
 
