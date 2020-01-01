@@ -12,7 +12,7 @@
 </script>
 
 <style lang="stylus">
-  @import '~/node_modules/@mdi/font/css/materialdesignicons/materialdesignicons.min.css'
+  @import '~@mdi/font/css/materialdesignicons.css'
 
   body
     background-color: $color-background

@@ -55,6 +55,10 @@ const config: webpack.Configuration = {
           loader: 'ts-loader',
           options: { appendTsSuffixTo: [/\.vue$/] }
         }
+      },
+      {
+        test: /\.(woff2?|ttf|eot)$/,
+        use: 'file-loader'
       }
     ]
   }
