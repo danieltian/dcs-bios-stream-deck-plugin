@@ -1,0 +1,10 @@
+{
+  "vetur.format.scriptInitialIndent": true,
+  "vetur.format.styleInitialIndent": true,
+  "vetur.validation.template": false,
+  "[vue]": {
+    "editor.defaultFormatter": "octref.vetur"
+  },
+  "stylusSupremacy.insertSemicolons": false,
+  "stylusSupremacy.insertBraces": false
+}
