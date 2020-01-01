@@ -1,18 +1,19 @@
 <template lang="pug">
   #app
     h1 Hello from app!
-    span.mdi.mdi-home
+    ControlPicker
 </template>
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
+  import ControlPicker from '@components/ControlPicker/ControlPicker.vue'
 
-  @Component
+  @Component({ components: { ControlPicker } })
   export default class App extends Vue {}
 </script>
 
 <style lang="stylus">
-  @import '~@mdi/font/css/materialdesignicons.css'
+  @import '~@mdi/font/css/materialdesignicons.min.css'
 
   body
     background-color: $color-background

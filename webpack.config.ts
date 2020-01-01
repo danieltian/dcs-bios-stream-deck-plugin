@@ -23,7 +23,8 @@ const config: webpack.Configuration = {
   resolve: {
     alias: {
       '@components': path.resolve('src', 'client', 'components')
-    }
+    },
+    extensions: ['*', '.js', '.vue']
   },
 
   module: {
@@ -40,7 +41,10 @@ const config: webpack.Configuration = {
           {
             loader: 'stylus-loader',
             options: {
-              import: [path.resolve('src', 'client', 'styles', 'colors')]
+              import: [
+                path.resolve('src', 'client', 'styles', 'colors'),
+                path.resolve('src', 'client', 'styles', 'mixins')
+              ]
             }
           }
         ]
