@@ -14,6 +14,7 @@
 
 <style lang="stylus">
   @import '~@mdi/font/css/materialdesignicons.min.css'
+  @require '../styles/global'
 
   body
     background-color: $color-background

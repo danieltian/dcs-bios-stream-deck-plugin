@@ -2,7 +2,7 @@
   .panel
     .title
       .title-text {{ title }}
-      .mdi.mdi-close.close-icon
+      span.mdi.mdi-close.close-icon
 
     .body
       slot
@@ -12,19 +12,16 @@
   import { Component, Vue, Prop } from 'vue-property-decorator'
 
   @Component
-  export default class Button extends Vue {
+  export default class Panel extends Vue {
     @Prop() readonly title!: string
   }
 </script>
 
 <style lang="stylus" scoped>
   .panel
-    position: fixed
-    top: 0
-    bottom: 0
-    left: 0
-    right: 0
     background-color: $color-background
+    border: 1px solid $color-border
+    box-shadow: 1px 1px 4px 2px black
 
   .title
     flexCenter()
@@ -36,7 +33,6 @@
       flex: 1
 
     .close-icon
-      flexBoth()
       padding: 0.4em
       cursor: pointer
 
