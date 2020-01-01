@@ -1,25 +1,23 @@
 <template lang="pug">
-  h1 Hello from app! {{ message }}
+  #app
+    h1 Hello from app!
+    span.mdi.mdi-home
 </template>
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
 
   @Component
-  export default class App extends Vue {
-    message = 'message'
-
-    testIf() {
-      if (this.message) {
-        return 'ok'
-      } else {
-        return 'no'
-      }
-    }
-  }
+  export default class App extends Vue {}
 </script>
 
 <style lang="stylus">
-  h1
-    color: red
+  @import '~/node_modules/@mdi/font/css/materialdesignicons/materialdesignicons.min.css'
+
+  body
+    background-color: $color-background
+    color: $color-text
+    font-family: Trebuchet MS, roboto, ubuntu, sans-serif
+    margin: 0
+    user-select: none
 </style>
