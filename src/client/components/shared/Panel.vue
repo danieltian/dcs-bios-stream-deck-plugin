@@ -2,7 +2,7 @@
   .panel
     .title
       .title-text {{ title }}
-      span.mdi.mdi-close.close-icon
+      Icon.close-icon(icon="close")
 
     .body
       slot
@@ -10,8 +10,9 @@
 
 <script lang="ts">
   import { Component, Vue, Prop } from 'vue-property-decorator'
+  import Icon from '@shared/Icon.vue'
 
-  @Component
+  @Component({ components: { Icon } })
   export default class Panel extends Vue {
     @Prop() readonly title!: string
   }
@@ -24,21 +25,16 @@
     box-shadow: 1px 1px 4px 2px black
 
   .title
-    flexCenter()
-    padding: 0.3em 0.2em 0.3em 0.5em
+    display: grid
+    grid-template-columns: 1fr min-content
+    align-items: center
     text-transform: uppercase
     border-bottom: 1px solid $color-border
 
     .title-text
-      flex: 1
+      font-size: 0.9em
+      padding-left: 0.7em
 
     .close-icon
-      padding: 0.4em
-      cursor: pointer
-
-      &:hover
-        filter: brightness(1.5)
-
-      &:active
-        filter: brightness(0.5)
+      padding: 0.7em
 </style>

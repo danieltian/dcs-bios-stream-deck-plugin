@@ -2,7 +2,7 @@
   .dropdown(tabindex="0" @blur="onBlur")
     .current(@click="toggleDropdown")
       .current-text {{ selected }}
-      span.mdi.mdi-chevron-down.dropdown-icon
+      Icon.dropdown-icon(icon="chevron-down" :clickable="false")
 
     .options(v-show="isDropdownOpen")
       .option(v-for="value in values" @click="onOptionClick(value)" :class="{ selected: value == selected }") {{ value }}
@@ -10,8 +10,9 @@
 
 <script lang="ts">
   import { Component, Vue, Prop } from 'vue-property-decorator'
+  import Icon from '@shared/Icon.vue'
 
-  @Component
+  @Component({ components: { Icon } })
   export default class Dropdown extends Vue {
     @Prop() readonly values!: string[]
     @Prop() readonly selected!: string
@@ -24,7 +25,7 @@
 
     onOptionClick(value: string): void {
       this.$emit('change', value)
-      this.isDropdownOpen = false
+      this.onBlur()
     }
 
     onBlur(): void {
@@ -34,7 +35,7 @@
 </script>
 
 <style lang="stylus" scoped>
-  $item-padding = 0.2em 0.3em 0.2em 0.5em
+  $item-padding = 0.3em 0.3em 0.4em 0.5em
 
   .dropdown
     position: relative
@@ -42,14 +43,14 @@
 
   // Currently-selected item.
   .current
-    flexCenter()
+    display: grid
+    grid-template-columns: 1fr min-content
     cursor: pointer
 
     &:hover
       color: white
 
     .current-text
-      flex: 1
       padding: $item-padding
       padding-right: 0
 

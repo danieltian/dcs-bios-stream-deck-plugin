@@ -20,7 +20,6 @@
     font-size: 0.9em
     padding: 0.4em 1em
     border-radius: 4px
-    cursor: pointer
 
     &:hover
       background-color: $color-button-background-hover
