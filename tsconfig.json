@@ -7,7 +7,9 @@
     "baseUrl": ".",
     "paths": {
       "@components/*": ["src/client/components/*"],
-      "@shared/*": ["src/client/components/shared/*"]
+      "@shared/*": ["src/client/components/shared/*"],
+      "@interfaces/*": ["src/client/interfaces/*"],
+      "@/*": ["src/client/*"]
     }
   }
 }

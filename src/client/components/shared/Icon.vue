@@ -7,8 +7,8 @@
 
   @Component
   export default class Icon extends Vue {
-    @Prop() icon!: string
-    @Prop({ default: true }) clickable!: string
+    @Prop() readonly icon!: string
+    @Prop({ default: true }) readonly clickable!: boolean
 
     get classNames(): string {
       const classNames = [`mdi-${this.icon}`]
@@ -34,8 +34,8 @@
     align-items: center
 
     &.clickable
-      opacity: 0.5
       color: $color-text
+      opacity: 0.5
       cursor: pointer
 
       &:hover

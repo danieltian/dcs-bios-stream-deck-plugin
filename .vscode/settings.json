@@ -5,5 +5,8 @@
     "editor.defaultFormatter": "octref.vetur"
   },
   "stylusSupremacy.insertSemicolons": false,
-  "stylusSupremacy.insertBraces": false
+  "stylusSupremacy.insertBraces": false,
+  "stylusSupremacy.alwaysUseZeroWithoutUnit": true,
+  "stylusSupremacy.reduceMarginAndPaddingValues": true,
+  "stylusSupremacy.sortProperties": "grouped"
 }

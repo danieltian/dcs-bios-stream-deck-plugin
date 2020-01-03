@@ -44,8 +44,8 @@
   // Currently-selected item.
   .current
     display: grid
-    grid-template-columns: 1fr min-content
     cursor: pointer
+    grid-template-columns: 1fr min-content
 
     &:hover
       color: white
@@ -55,28 +55,28 @@
       padding-right: 0
 
     .dropdown-icon
-      font-size: 1.3em
       padding-right: 0.3em
+      font-size: 1.3em
 
   // Dropdown items.
   .options
     position: absolute
     top: 0
     left: 0
-    background-color: $color-dropdown-background
-    width: 100%
     max-height: 90vh
-    box-shadow: 1px 1px 10px 0px black
+    width: 100%
+    background-color: $color-dropdown-background
+    box-shadow: 1px 1px 10px 0 black
 
   .option
     padding: $item-padding
     cursor: pointer
 
     &:hover
-      color: white
       background-color: $color-dropdown-background-hover
+      color: white
 
     &.selected
-      color: white
       background-color: $color-dropdown-background-selected
+      color: white
 </style>

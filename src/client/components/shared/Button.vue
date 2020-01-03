@@ -13,13 +13,13 @@
 
 <style lang="stylus" scoped>
   button
-    color: white
-    background-color: $color-button-background
-    border: none
-    outline: none
-    font-size: 0.9em
     padding: 0.4em 1em
+    outline: none
+    border: none
     border-radius: 4px
+    background-color: $color-button-background
+    color: white
+    font-size: 0.9em
 
     &:hover
       background-color: $color-button-background-hover

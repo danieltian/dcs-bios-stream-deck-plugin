@@ -3,29 +3,62 @@
     .filters
       Dropdown(:values="aircraftNames" :selected="selectedAircraft" @change="setSelectedAircraft")
       Search(v-model="filter")
+
+    .controls
+      Control(v-for="control in filteredControls" :control="control")
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
+  import { Component, Vue, Watch } from 'vue-property-decorator'
   import Panel from '@shared/Panel.vue'
   import Dropdown from '@shared/Dropdown.vue'
   import Search from './Search.vue'
+  import Control from './Control.vue'
+  import { ClientControl } from '@/types'
 
-  @Component({ components: { Panel, Dropdown, Search } })
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async function getJson(url: string): Promise<any> {
+    const response = await fetch(url)
+    const json = await response.json()
+    return json
+  }
+
+  @Component({ components: { Panel, Dropdown, Search, Control } })
   export default class ControlPicker extends Vue {
-    aircraftNames = ['Ka-50', 'A-10C', 'Metadata']
-    selectedAircraft = 'Ka-50'
+    aircraftNames = []
+    selectedAircraft = ''
     filter = ''
+    controls: ClientControl[] = []
 
-    mounted(): void {
+    async mounted(): Promise<void> {
+      this.aircraftNames = await getJson('/aircraft-names')
       // Select the first aircraft in the aircraft list if there's no selected aircraft.
       if (!this.selectedAircraft) {
         this.selectedAircraft = this.aircraftNames[0]
       }
     }
 
+    // Filter the controls based on the filter string.
+    get filteredControls(): ClientControl[] {
+      if (!this.filter) return this.controls
+
+      return this.controls.filter(control => {
+        const category = control.category.replace(/_ /g, '').toLocaleLowerCase()
+        const description = control.description.replace(/_ /g, '').toLocaleLowerCase()
+
+        return category.includes(this.filter) || description.includes(this.filter)
+      })
+    }
+
+    // Change the selected aircraft and get its controls.
     setSelectedAircraft(selectedAircraft: string): void {
       this.selectedAircraft = selectedAircraft
+    }
+
+    // When selectedAircraft is changed, get the controls for it.
+    @Watch('selectedAircraft')
+    async getSelectedAircraftControls(selectedAircraft: string): Promise<void> {
+      this.controls = await getJson('/aircraft-controls/' + selectedAircraft)
     }
   }
 </script>
@@ -35,24 +68,20 @@
 
   .control-picker
     position: fixed
-    left: $margin
-    right: $margin
     top: $margin
+    right: $margin
     bottom: $margin
+    left: $margin
 
   .filters
     display: grid
-    grid-template-columns: 8.5em 1fr
     border-bottom: 1px solid $color-border
+    grid-template-columns: 8.5em 1fr
 
     .dropdown
       border-right: 1px solid $color-border
 
-    input
-      color: $color-text
-      font-size: 0.9em
-      padding: 0 0.4em
-      outline: none
-      background: none
-      border: none
+  .body
+    display: grid
+    grid-template-rows: min-content 1fr
 </style>

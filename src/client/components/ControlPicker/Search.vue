@@ -1,7 +1,7 @@
 <template lang="pug">
-  .search(:class="{ focus: isFocused }" @click="setFocus(true)")
+  .search(@click="onFocus")
     Icon.search-icon(icon="magnify" :clickable="false")
-    input.input(:value="value" ref="input" @input="onInput" @blur="setFocus(false)")
+    input.input(:value="value" ref="input" @input="onInput")
     Icon.close-icon(icon="close" @click="clear" v-show="value")
 </template>
 
@@ -19,16 +19,13 @@
       this.$emit('input', (e.target as HTMLInputElement).value)
     }
 
-    clear(): void {
-      this.$emit('input', '')
+    onFocus(): void {
+      ;(this.$refs.input as HTMLInputElement).focus()
+      this.isFocused = true
     }
 
-    setFocus(isFocused: boolean): void {
-      if (isFocused) {
-        ;(this.$refs.input as HTMLInputElement).focus()
-      }
-
-      this.isFocused = isFocused
+    clear(): void {
+      this.$emit('input', '')
     }
   }
 </script>
@@ -36,22 +33,22 @@
 <style lang="stylus" scoped>
   .search
     display: grid
-    grid-template-columns: min-content 1fr min-content
     padding-left: 0.3em
     cursor: text
+    grid-template-columns: min-content 1fr min-content
 
   .search-icon
     opacity: 0.5
 
   .input
     padding: 0 0 0 0.2em
-    background: none
-    border: none
     outline: none
+    border: none
+    background: none
     color: #c5cbce
     font-size: 1em
 
   .close-icon
-    font-size: 0.9em
     padding: 0 0.53em
+    font-size: 0.9em
 </style>

@@ -10,5 +10,9 @@ module.exports = {
   ],
   parserOptions: {
     parser: '@typescript-eslint/parser'
+  },
+  rules: {
+    // Interface type delimiters must be none: https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/member-delimiter-style.md
+    '@typescript-eslint/member-delimiter-style': ['error', { multiline: { delimiter: 'none' } }]
   }
 }

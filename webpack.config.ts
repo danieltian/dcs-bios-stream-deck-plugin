@@ -24,8 +24,7 @@ const config: webpack.Configuration = {
     alias: {
       '@components': path.resolve('src', 'client', 'components'),
       '@shared': path.resolve('src', 'client', 'components', 'shared')
-    },
-    extensions: ['*', '.js', '.vue']
+    }
   },
 
   module: {

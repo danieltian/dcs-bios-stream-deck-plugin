@@ -17,9 +17,9 @@
   @require '../styles/global'
 
   body
+    margin: 0
     background-color: $color-background
     color: $color-text
     font-family: Trebuchet MS, roboto, ubuntu, sans-serif
-    margin: 0
     user-select: none
 </style>
