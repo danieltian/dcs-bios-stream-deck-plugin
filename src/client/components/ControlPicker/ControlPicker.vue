@@ -1,8 +1,9 @@
 <template lang="pug">
   Panel.control-picker(title="Select Control")
-    .filters
-      Dropdown(:values="aircraftNames" :selected="selectedAircraft" @change="setSelectedAircraft")
-      Search(v-model="filter")
+    template(#topbar)
+      .filters
+        Dropdown(:values="aircraftNames" :selected="selectedAircraft" @change="setSelectedAircraft")
+        Search(v-model="filter")
 
     .controls
       Control(v-for="control in filteredControls" :control="control")
@@ -74,14 +75,10 @@
     left: $margin
 
   .filters
-    display: grid
+    display: flex
     border-bottom: 1px solid $color-border
-    grid-template-columns: 8.5em 1fr
 
     .dropdown
+      width: 8.5em
       border-right: 1px solid $color-border
-
-  .body
-    display: grid
-    grid-template-rows: min-content 1fr
 </style>

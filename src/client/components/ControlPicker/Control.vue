@@ -1,14 +1,13 @@
 <template lang="pug">
-  .control(@click="onClick" v-observe-visibility="onVisibilityChanged")
-    template(v-if="isVisible")
-      .name
-        | {{ control.description }}
-        span(v-if="control.suffix" style="color: yellow") {{ control.suffix }}
-      .category
-        .category-name {{ control.category }}
-        .control-type(:class="color") {{ controlType }}
+  .control(@click="onClick")
+    .name
+      | {{ control.description }}
+      span(v-if="control.suffix" style="color: yellow") {{ control.suffix }}
+    .category
+      .category-name {{ control.category }}
+      .control-type(:class="color") {{ controlType }}
 
-      .control-value {{ control.value }}
+    .control-value {{ control.value }}
 </template>
 
 <script lang="ts">
@@ -67,12 +66,12 @@
 
 <style lang="stylus" scoped>
   .control
-    display: grid
+    display: flex
+    flex-direction: column
     align-content: center
     padding: 0 0.5em
     height: 42px
     cursor: pointer
-    grid-template: min-content min-content / 1fr max-content
 
     &:hover
       background-color: #2a2e39

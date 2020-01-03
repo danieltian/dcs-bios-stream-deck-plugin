@@ -1,0 +1,15 @@
+flexCenter()
+  display: flex
+  align-items: center
+
+scrollbar()
+  &::-webkit-scrollbar
+    width: 10px
+
+  &::-webkit-scrollbar-thumb
+    background-color: $color-scrollbar
+    border: 3px solid $color-background
+    border-radius: 0.25em
+
+    &:hover
+      background-color: $color-scrollbar-hover

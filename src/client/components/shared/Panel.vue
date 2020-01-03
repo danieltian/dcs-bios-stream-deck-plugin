@@ -4,8 +4,12 @@
       .title-text {{ title }}
       Icon.close-icon(icon="close")
 
+    slot(name="topbar")
+
     .body
       slot
+
+    slot(name="bottombar")
 </template>
 
 <script lang="ts">
@@ -20,23 +24,28 @@
 
 <style lang="stylus" scoped>
   .panel
-    display: grid
+    display: flex
+    flex-direction: column
     border: 1px solid $color-border
     background-color: $color-background
     box-shadow: 1px 1px 4px 2px black
-    grid-template-rows: min-content 1fr
 
   .title
-    display: grid
+    display: flex
     align-items: center
     border-bottom: 1px solid $color-border
     text-transform: uppercase
-    grid-template-columns: 1fr min-content
 
     .title-text
+      flex: 1
       padding-left: 0.7em
       font-size: 0.9em
 
     .close-icon
       padding: 0.7em
+
+  .body
+    scrollbar()
+    flex: 1
+    overflow-y: auto
 </style>

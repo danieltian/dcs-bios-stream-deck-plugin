@@ -43,14 +43,14 @@
 
   // Currently-selected item.
   .current
-    display: grid
+    flexCenter()
     cursor: pointer
-    grid-template-columns: 1fr min-content
 
     &:hover
       color: white
 
     .current-text
+      flex: 1
       padding: $item-padding
       padding-right: 0
 

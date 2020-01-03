@@ -32,15 +32,16 @@
 
 <style lang="stylus" scoped>
   .search
-    display: grid
+    flexCenter()
+    flex: 1
     padding-left: 0.3em
     cursor: text
-    grid-template-columns: min-content 1fr min-content
 
   .search-icon
     opacity: 0.5
 
   .input
+    flex: 1
     padding: 0 0 0 0.2em
     outline: none
     border: none

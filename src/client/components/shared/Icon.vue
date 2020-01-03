@@ -29,18 +29,14 @@
 </script>
 
 <style lang="stylus" scoped>
-  .mdi
-    display: grid
-    align-items: center
+  .mdi.clickable
+    color: $color-text
+    opacity: 0.5
+    cursor: pointer
 
-    &.clickable
-      color: $color-text
-      opacity: 0.5
-      cursor: pointer
+    &:hover
+      opacity: 1
 
-      &:hover
-        opacity: 1
-
-      &:active
-        opacity: 0.25
+    &:active
+      opacity: 0.25
 </style>
