@@ -7,9 +7,14 @@ scrollbar()
     width: 10px
 
   &::-webkit-scrollbar-thumb
+    border: 3px solid $color-dropdown-background
+    border-radius: 0.3em
     background-color: $color-scrollbar
-    border: 3px solid $color-background
-    border-radius: 0.25em
 
     &:hover
       background-color: $color-scrollbar-hover
+
+truncate()
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap

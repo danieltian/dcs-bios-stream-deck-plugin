@@ -2,12 +2,10 @@
   .control(@click="onClick")
     .name
       | {{ control.description }}
-      span(v-if="control.suffix" style="color: yellow") {{ control.suffix }}
+      span.suffix {{ control.suffix }}
     .category
-      .category-name {{ control.category }}
-      .control-type(:class="color") {{ controlType }}
-
-    .control-value {{ control.value }}
+      | {{ control.category }}
+      span.control-type(:class="color") {{ controlType }}
 </template>
 
 <script lang="ts">
@@ -17,8 +15,6 @@
   @Component
   export default class ControlComponent extends Vue {
     @Prop() readonly control!: ClientControl
-
-    isVisible = false
 
     get controlType(): string {
       const type = this.control.type.replace(/_/g, ' ')
@@ -54,54 +50,38 @@
       }
     }
 
-    onClick(): void {
-      this.$emit('click')
-    }
-
-    onVisibilityChanged(isVisible: boolean): void {
-      this.isVisible = isVisible
+    onClick(e: Event): void {
+      this.$emit('click', e)
     }
   }
 </script>
 
 <style lang="stylus" scoped>
   .control
-    display: flex
-    flex-direction: column
-    align-content: center
-    padding: 0 0.5em
-    height: 42px
+    padding: 0.3em 0.5em
     cursor: pointer
 
     &:hover
-      background-color: #2a2e39
+      background-color: $color-dropdown-background-hover
       color: white
 
       .category
         filter: brightness(1.3)
 
-    &.selected
-      background-color: #d8d8d8
-      color: black
-
   .name
-    overflow: hidden
-    margin: 0 0 0.5em
-    margin-right: 0.5em
+    truncate()
     text-transform: uppercase
-    text-overflow: ellipsis
-    white-space: nowrap
+
+  .suffix
+    color: yellow
 
   .category
-    display: flex
-    margin-top: 0.1em
-    color: #8c8c8c
+    margin-top: 0.2em
+    color: #787b86
     font-size: 0.7em
 
-  .category-name
-    margin-right: 1em
-
   .control-type
+    margin-left: 1em
     text-transform: uppercase
 
     &.red
@@ -142,8 +122,4 @@
 
     &.gray
       color: #767676
-
-  .control-value
-    grid-row: 1 / 3
-    grid-column: 2
 </style>

@@ -79,6 +79,6 @@
     border-bottom: 1px solid $color-border
 
     .dropdown
-      width: 8.5em
+      width: 10em
       border-right: 1px solid $color-border
 </style>

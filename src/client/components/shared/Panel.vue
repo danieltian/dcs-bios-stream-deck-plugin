@@ -27,7 +27,7 @@
     display: flex
     flex-direction: column
     border: 1px solid $color-border
-    background-color: $color-background
+    background-color: $color-dropdown-background
     box-shadow: 1px 1px 4px 2px black
 
   .title
@@ -45,7 +45,6 @@
       padding: 0.7em
 
   .body
-    scrollbar()
-    flex: 1
+    scrollbar($color-dropdown-background)
     overflow-y: auto
 </style>
