@@ -1,9 +1,8 @@
 {
   "vetur.format.scriptInitialIndent": true,
   "vetur.format.styleInitialIndent": true,
-  "[vue]": {
-    "editor.defaultFormatter": "octref.vetur"
-  },
+  "vetur.format.defaultFormatter.js": "none",
+  "vetur.format.defaultFormatter.ts": "none",
   "stylusSupremacy.insertSemicolons": false,
   "stylusSupremacy.insertBraces": false,
   "stylusSupremacy.alwaysUseZeroWithoutUnit": true,

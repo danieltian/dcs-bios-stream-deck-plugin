@@ -6,7 +6,7 @@
         Search(v-model="filter")
 
     .controls
-      Control(v-for="control in filteredControls" :control="control")
+      Control(v-for="control in filteredControls" :control="control" :key="control.id")
 </template>
 
 <script lang="ts">
@@ -79,6 +79,7 @@
     border-bottom: 1px solid $color-border
 
     .dropdown
+      // top: 600px
       width: 10em
       border-right: 1px solid $color-border
 </style>
