@@ -1,6 +1,14 @@
-flexCenter()
+flexCenter($flexDirection = null)
   display: flex
   align-items: center
+
+  if $flexDirection
+    flex-direction: $flexDirection
+
+flexBoth()
+  display: flex
+  align-items: center
+  justify-content: center
 
 scrollbar()
   &::-webkit-scrollbar
@@ -9,10 +17,10 @@ scrollbar()
   &::-webkit-scrollbar-thumb
     border: 3px solid $color-dropdown-background
     border-radius: 0.3em
-    background-color: $color-scrollbar
+    background-color: #363a45
 
     &:hover
-      background-color: $color-scrollbar-hover
+      background-color: #505965
 
 truncate()
   overflow: hidden

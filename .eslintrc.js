@@ -33,7 +33,7 @@ module.exports = {
     'comma-spacing': ['error', { after: true }],
 
     // Require parenthesis around arrow function parameters: https://eslint.org/docs/rules/arrow-parens
-    'arrow-parens': ['error', 'always'],
+    'arrow-parens': ['error', 'as-needed'],
 
     // Require spaces around the arrow part of the arrow function: https://eslint.org/docs/rules/arrow-spacing
     'arrow-spacing': ['error', { before: true, after: true }],

@@ -65,21 +65,11 @@
 </script>
 
 <style lang="stylus" scoped>
-  $margin = 2em
-
-  .control-picker
-    position: fixed
-    top: $margin
-    right: $margin
-    bottom: $margin
-    left: $margin
-
   .filters
     display: flex
     border-bottom: 1px solid $color-border
 
     .dropdown
-      // top: 600px
       width: 10em
       border-right: 1px solid $color-border
 </style>

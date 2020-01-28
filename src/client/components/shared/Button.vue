@@ -17,10 +17,10 @@
     outline: none
     border: none
     border-radius: 4px
-    background-color: $color-button-background
+    background-color: #2974cf
     color: white
     font-size: 0.9em
 
     &:hover
-      background-color: $color-button-background-hover
+      background-color: #2f86e2
 </style>

@@ -30,13 +30,12 @@
 
 <style lang="stylus" scoped>
   .mdi.clickable
-    color: $color-text
-    opacity: 0.5
+    color: $color-icon
     cursor: pointer
 
     &:hover
-      opacity: 1
+      color: $color-icon-hover
 
     &:active
-      opacity: 0.25
+      color: $color-icon-active
 </style>

@@ -20,7 +20,7 @@
     }
 
     onFocus(): void {
-      ;(this.$refs.input as HTMLInputElement).focus()
+      (this.$refs.input as HTMLInputElement).focus()
       this.isFocused = true
     }
 
@@ -38,7 +38,7 @@
     cursor: text
 
   .search-icon
-    opacity: 0.5
+    color: $color-icon
 
   .input
     flex: 1

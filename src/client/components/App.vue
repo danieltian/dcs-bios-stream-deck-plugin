@@ -1,14 +1,16 @@
 <template lang="pug">
   #app
     h1 Hello from app!
-    ControlPicker
+    //- ControlPicker
+    ImageEditor
 </template>
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
   import ControlPicker from '@components/ControlPicker/ControlPicker.vue'
+  import ImageEditor from '@components/ImageEditor/ImageEditor.vue'
 
-  @Component({ components: { ControlPicker } })
+  @Component({ components: { ControlPicker, ImageEditor } })
   export default class App extends Vue {}
 </script>
 

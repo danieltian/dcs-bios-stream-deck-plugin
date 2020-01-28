@@ -23,7 +23,14 @@
 </script>
 
 <style lang="stylus" scoped>
+  $margin = 2em
+
   .panel
+    position: fixed
+    top: $margin
+    right: $margin
+    bottom: $margin
+    left: $margin
     display: flex
     flex-direction: column
     border: 1px solid $color-border
