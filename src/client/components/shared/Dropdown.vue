@@ -27,21 +27,6 @@
       maxHeight: 0
     }),
 
-    methods: {
-      toggleDropdown() {
-        this.isDropdownOpen = !this.isDropdownOpen
-      },
-
-      onOptionClick(value) {
-        this.$emit('change', value)
-        this.onBlur()
-      },
-
-      onBlur() {
-        this.isDropdownOpen = false
-      }
-    },
-
     watch: {
       isDropdownOpen() {
         if (!this.isDropdownOpen) return
@@ -55,6 +40,21 @@
         // downwards, get the space from the top of the item to the bottom of the viewport.
         const remainingSpace = this.openUpwards ? window.innerHeight - rect.bottom : rect.top
         this.maxHeight = Math.round(window.innerHeight - remainingSpace - viewportMargin)
+      }
+    },
+
+    methods: {
+      toggleDropdown() {
+        this.isDropdownOpen = !this.isDropdownOpen
+      },
+
+      onOptionClick(value) {
+        this.$emit('change', value)
+        this.onBlur()
+      },
+
+      onBlur() {
+        this.isDropdownOpen = false
       }
     }
   }

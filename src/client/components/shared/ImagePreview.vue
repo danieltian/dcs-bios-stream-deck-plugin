@@ -15,6 +15,16 @@
       image: new Image()
     }),
 
+    watch: {
+      'settings.id'() {
+        this.image.addEventListener('load', () => {
+          this.drawImage(this.image)
+        })
+
+        this.image.src = this.images[this.settings.id]
+      }
+    },
+
     methods: {
       onClick(e) {
         this.$emit('click', e)
@@ -27,16 +37,6 @@
 
         context.clearRect(0, 0, canvas.width, canvas.height)
         context.drawImage(image, 0, 0, image.width, image.height, 0, 0, canvas.width, canvas.height)
-      }
-    },
-
-    watch: {
-      'settings.id'() {
-        this.image.addEventListener('load', () => {
-          this.drawImage(this.image)
-        })
-
-        this.image.src = this.images[this.settings.id]
       }
     }
   }

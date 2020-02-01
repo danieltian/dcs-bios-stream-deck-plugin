@@ -1,3 +1,3 @@
-export default {
-  extends: 'plugin:vue/recommended'
+module.exports = {
+  extends: ['plugin:vue/recommended', 'plugin:prettier/recommended']
 }

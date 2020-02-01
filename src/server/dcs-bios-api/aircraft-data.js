@@ -25,7 +25,7 @@ filePaths.forEach(filePath => {
   aircraftControls[aircraftName] = []
 
   // Get the JSON data.
-  const data = require(filePath) // eslint-disable-line @typescript-eslint/no-var-requires
+  const data = require(filePath)
 
   // Flat map the controls into a flat array.
   const controls = Object.values(data).reduce((array, x) => array.concat(Object.values(x)), [])

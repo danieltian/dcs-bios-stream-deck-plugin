@@ -29,14 +29,6 @@
       controls: []
     }),
 
-    async mounted() {
-      this.aircraftNames = await getJson('/aircraft-names')
-      // Select the first aircraft in the aircraft list if there's no selected aircraft.
-      if (!this.selectedAircraft) {
-        this.selectedAircraft = this.aircraftNames[0]
-      }
-    },
-
     computed: {
       filteredControls() {
         if (!this.filter) return this.controls // If there's no filter, return all the controls.
@@ -51,17 +43,25 @@
       }
     },
 
-    methods: {
-      // Change the selected aircraft.
-      setSelectedAircraft(newAircraft) {
-        this.selectedAircraft = newAircraft
-      }
-    },
-
     watch: {
       async selectedAircraft(newAircraft) {
         // When selectedAircraft is changed, get the controls for it.
         this.controls = await getJson('/aircraft-controls/' + this.selectedAircraft)
+      }
+    },
+
+    async mounted() {
+      this.aircraftNames = await getJson('/aircraft-names')
+      // Select the first aircraft in the aircraft list if there's no selected aircraft.
+      if (!this.selectedAircraft) {
+        this.selectedAircraft = this.aircraftNames[0]
+      }
+    },
+
+    methods: {
+      // Change the selected aircraft.
+      setSelectedAircraft(newAircraft) {
+        this.selectedAircraft = newAircraft
       }
     }
   }
