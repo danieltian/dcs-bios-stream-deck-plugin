@@ -6,7 +6,7 @@
 
       .settings
         label.setting-label Preset
-        ButtonGroup(:options="['fill', 'fit', 'stretch', 'custom']" v-model="scaling")
+        ButtonGroup(:options="['fill', 'fit', 'stretch']" v-model="scaling")
         label.settings-label Position
         ButtonGroup(:options="positionOptions" v-model="position")
 </template>

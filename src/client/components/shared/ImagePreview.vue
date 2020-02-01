@@ -25,9 +25,7 @@
       const context = canvas.getContext('2d')
 
       if (context) {
-        console.log('clearRect')
         context.clearRect(0, 0, canvas.width, canvas.height)
-        console.log('drawImage')
         context.drawImage(image, 0, 0, image.width, image.height, 0, 0, canvas.width, canvas.height)
       }
     }
@@ -56,9 +54,6 @@
 
     &:hover
       color: $color-icon-hover
-
-    &:active
-      color: $color-icon-active
 
     &.has-image
       border-style: solid

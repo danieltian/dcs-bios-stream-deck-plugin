@@ -35,7 +35,4 @@
 
     &:hover
       color: $color-icon-hover
-
-    &:active
-      color: $color-icon-active
 </style>
