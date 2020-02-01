@@ -11,41 +11,38 @@
         ButtonGroup(:options="positionOptions" v-model="position")
 </template>
 
-<script lang="ts">
-  import { ImageSettings } from '@/types'
-  import { Component, Vue } from 'vue-property-decorator'
-  import Panel from '@shared/Panel.vue'
-  import ButtonGroup from '@shared/ButtonGroup.vue'
-  import ImagePreview from '@shared/ImagePreview.vue'
+<script>
   import md5 from 'md5'
 
-  @Component({ components: { Panel, ImagePreview, ButtonGroup } })
-  export default class ImageEditor extends Vue {
-    scaling = 'fill'
-    position = ''
-    images: { [key: string]: string } = {}
-    imageSettings: ImageSettings = { id: '' }
+  export default {
+    data: () => ({
+      scaling: 'fill',
+      position: '',
+      images: {},
+      imageSettings: {}
+    }),
 
-    get positionOptions(): string[] {
-      return ['left', 'center', 'right'];
-    }
+    computed: {
+      positionOptions() {
+        return ['left', 'center', 'right']
+      }
+    },
 
-    changeImage(): void {
-      (this.$refs.fileInput as HTMLInputElement).click()
-    }
+    methods: {
+      changeImage() {
+        this.$refs.fileInput.click()
+      },
 
-    onFileSelected(e: Event): void {
-      const files = (e.target as HTMLInputElement).files
-
-      if (files) {
+      onFileSelected(e) {
+        const files = e.target.files
         const reader = new FileReader()
 
         reader.addEventListener('load', () => {
-          const result = reader.result as string
+          const result = reader.result
 
           const hash = md5(result)
-          this.images[hash] = result
-          this.imageSettings.id = hash
+          this.$set(this.images, hash, result)
+          this.$set(this.imageSettings, 'id', hash)
         })
 
         reader.readAsDataURL(files[0])

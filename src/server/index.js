@@ -1,10 +1,9 @@
-import express from 'express'
-import aircraftData from './dcs-bios-api/aircraft-data'
+const aircraftData = require('./dcs-bios-api/aircraft-data')
 
 // Cache the aircraft names.
 const aircraftNames = Object.keys(aircraftData.aircraftControls)
 
-export default (app: express.Application): void => {
+module.exports = app => {
   // Get the list of aircraft names.
   app.get('/aircraft-names', (request, response) => {
     response.send(aircraftNames)

@@ -1,10 +1,10 @@
-import aircraftData from './aircraft-data'
-import udpClient from './udp-multicast-client'
-import chalk from 'chalk'
-import Control from './Control'
-import BufferReader from './BufferReader'
+const aircraftData = require('./aircraft-data')
+const udpClient = require('./udp-multicast-client')
+const chalk = require('chalk')
+const Control = require('./Control')
+const BufferReader = require('./BufferReader')
 
-let updatedControls = new Set<Control>()
+let updatedControls = new Set()
 // Data buffer that holds the raw values for all the controls. Not necessary for numeric updates, but because strings
 // can be partial updates where only part of the string is updated, we need this buffer to reconstruct the entire
 // string.
@@ -12,16 +12,12 @@ const dataBuffer = Buffer.alloc(65536)
 // Aircraft whose controls need to always be updated.
 const alwaysRelevantAircraft = ['MetadataStart', 'MetadataEnd', 'CommonData', 'NS430']
 
-interface OnUpdatesFunction {
-  (updates: Control[]): void
-}
-
 class DcsBiosApi {
   /**
    * Start listening for new messages from DCS BIOS.
    * @param onUpdatesCallback - callback to invoke on control updates
    */
-  start(onUpdatesCallback: OnUpdatesFunction): void {
+  start(onUpdatesCallback) {
     udpClient.start(x => this.parseMessage(x, onUpdatesCallback))
   }
 
@@ -29,7 +25,7 @@ class DcsBiosApi {
    * Send a message to DCS BIOS.
    * @param message - message to send
    */
-  sendMessage(message: string): void {
+  sendMessage(message) {
     return udpClient.sendMessage(message.trim() + '\n')
   }
 
@@ -37,7 +33,7 @@ class DcsBiosApi {
    * @param message - DCS BIOS export message
    * @param onUpdatesCallback - callback to invoke on control updates
    */
-  private parseMessage(message: Buffer, onUpdatesCallback: OnUpdatesFunction): void {
+  parseMessage(message, onUpdatesCallback) {
     const reader = new BufferReader(message)
 
     if (reader.bytesLeft() < 4) {
@@ -53,7 +49,7 @@ class DcsBiosApi {
       // If this is a sync command (updates are complete for this frame), we are safe to invoke the callback.
       if (address == 0x5555 && count == 0x5555) {
         onUpdatesCallback(Array.from(updatedControls))
-        updatedControls = new Set<Control>() // Clear the updated controls in preparation for the next frame.
+        updatedControls = new Set() // Clear the updated controls in preparation for the next frame.
         continue
       }
 
@@ -112,11 +108,11 @@ class DcsBiosApi {
     }
   }
 
-  private isRelevantControl(control: Control): boolean {
+  isRelevantControl(control) {
     const currentAircraft = aircraftData.addressLookup[0][0].value
 
     return control.aircraft == currentAircraft || alwaysRelevantAircraft.includes(control.aircraft)
   }
 }
 
-export default new DcsBiosApi()
+module.exports = new DcsBiosApi()

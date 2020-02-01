@@ -8,50 +8,50 @@
       span.control-type(:class="color") {{ controlType }}
 </template>
 
-<script lang="ts">
-  import { ClientControl } from '@/types'
-  import { Component, Prop, Vue } from 'vue-property-decorator'
+<script>
+  export default {
+    props: { control: { type: Object, required: true } },
 
-  @Component
-  export default class ControlComponent extends Vue {
-    @Prop() readonly control!: ClientControl
+    computed: {
+      controlType() {
+        const type = this.control.type.replace(/_/g, ' ') // Replace underscores with spaces.
+        return type
+      },
 
-    get controlType(): string {
-      const type = this.control.type.replace(/_/g, ' ')
-      return type
-    }
-
-    get color(): string {
-      switch (this.controlType) {
-        case 'toggle switch':
-          return 'red'
-        case 'push button':
-          return 'green'
-        case 'limited rotary':
-          return 'yellow'
-        case 'rocker switch':
-          return 'orange'
-        case 'analog gauge':
-          return 'blue'
-        case 'limited dial':
-          return 'brown'
-        case 'infinite rotary':
-          return 'olive'
-        case 'variable step dial':
-          return 'purple'
-        case 'discrete dial':
-          return 'violet'
-        case 'display':
-          return 'pink'
-        case 'led':
-          return 'teal'
-        default:
-          return 'gray'
+      color() {
+        switch (this.controlType) {
+          case 'toggle switch':
+            return 'red'
+          case 'push button':
+            return 'green'
+          case 'limited rotary':
+            return 'yellow'
+          case 'rocker switch':
+            return 'orange'
+          case 'analog gauge':
+            return 'blue'
+          case 'limited dial':
+            return 'brown'
+          case 'infinite rotary':
+            return 'olive'
+          case 'variable step dial':
+            return 'purple'
+          case 'discrete dial':
+            return 'violet'
+          case 'display':
+            return 'pink'
+          case 'led':
+            return 'teal'
+          default:
+            return 'gray'
+        }
       }
-    }
+    },
 
-    onClick(e: Event): void {
-      this.$emit('click', e)
+    methods: {
+      onClick(e) {
+        this.$emit('click', e)
+      }
     }
   }
 </script>

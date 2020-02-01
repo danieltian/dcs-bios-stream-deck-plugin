@@ -9,57 +9,60 @@
       Control(v-for="control in filteredControls" :control="control" :key="control.id")
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Watch } from 'vue-property-decorator'
-  import Panel from '@shared/Panel.vue'
-  import Dropdown from '@shared/Dropdown.vue'
+<script>
   import Search from './Search.vue'
   import Control from './Control.vue'
-  import { ClientControl } from '@/types'
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  async function getJson(url: string): Promise<any> {
+  async function getJson(url) {
     const response = await fetch(url)
     const json = await response.json()
     return json
   }
 
-  @Component({ components: { Panel, Dropdown, Search, Control } })
-  export default class ControlPicker extends Vue {
-    aircraftNames = []
-    selectedAircraft = ''
-    filter = ''
-    controls: ClientControl[] = []
+  export default {
+    components: { Search, Control },
 
-    async mounted(): Promise<void> {
+    data: () => ({
+      aircraftNames: [],
+      selectedAircraft: '',
+      filter: '',
+      controls: []
+    }),
+
+    async mounted() {
       this.aircraftNames = await getJson('/aircraft-names')
       // Select the first aircraft in the aircraft list if there's no selected aircraft.
       if (!this.selectedAircraft) {
         this.selectedAircraft = this.aircraftNames[0]
       }
-    }
+    },
 
-    // Filter the controls based on the filter string.
-    get filteredControls(): ClientControl[] {
-      if (!this.filter) return this.controls
+    computed: {
+      filteredControls() {
+        if (!this.filter) return this.controls // If there's no filter, return all the controls.
 
-      return this.controls.filter(control => {
-        const category = control.category.replace(/_ /g, '').toLocaleLowerCase()
-        const description = control.description.replace(/_ /g, '').toLocaleLowerCase()
+        // Filter the controls by the category and description, removing all spaces.
+        return this.controls.filter(control => {
+          const category = control.category.replace(/_ /g, '').toLocaleLowerCase()
+          const description = control.description.replace(/_ /g, '').toLocaleLowerCase()
 
-        return category.includes(this.filter) || description.includes(this.filter)
-      })
-    }
+          return category.includes(this.filter) || description.includes(this.filter)
+        })
+      }
+    },
 
-    // Change the selected aircraft and get its controls.
-    setSelectedAircraft(selectedAircraft: string): void {
-      this.selectedAircraft = selectedAircraft
-    }
+    methods: {
+      // Change the selected aircraft.
+      setSelectedAircraft(newAircraft) {
+        this.selectedAircraft = newAircraft
+      }
+    },
 
-    // When selectedAircraft is changed, get the controls for it.
-    @Watch('selectedAircraft')
-    async getSelectedAircraftControls(selectedAircraft: string): Promise<void> {
-      this.controls = await getJson('/aircraft-controls/' + selectedAircraft)
+    watch: {
+      async selectedAircraft(newAircraft) {
+        // When selectedAircraft is changed, get the controls for it.
+        this.controls = await getJson('/aircraft-controls/' + this.selectedAircraft)
+      }
     }
   }
 </script>

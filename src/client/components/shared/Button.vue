@@ -2,12 +2,11 @@
   button {{ text }}
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop } from 'vue-property-decorator'
-
-  @Component
-  export default class Button extends Vue {
-    @Prop() readonly text!: string
+<script>
+  export default {
+    props: {
+      text: { type: String, required: true }
+    }
   }
 </script>
 

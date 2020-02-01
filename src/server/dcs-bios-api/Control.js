@@ -1,21 +1,7 @@
-import chalk from 'chalk'
-import { RawControl, RawOutput } from './types'
+const chalk = require('chalk')
 
 class Control {
-  id: string
-  aircraft: string
-  category: string
-  description: string
-  inputs: string[]
-  output?: string
-  suffix?: string
-  type: string
-  maxLength: number
-  mask: number
-  shiftBy: number
-  value?: string | number
-
-  constructor(control: RawControl, output: RawOutput, aircraftName: string) {
+  constructor(control, output, aircraftName) {
     this.validate(control, output, aircraftName)
 
     this.id = control.identifier + output.suffix
@@ -31,7 +17,7 @@ class Control {
     this.suffix = output.suffix
   }
 
-  private validate(control: RawControl, output: RawOutput, aircraftName: string): void {
+  validate(control, output, aircraftName) {
     let controlName = chalk.cyanBright(`${aircraftName}:${control.category}`)
     if (control.description) {
       controlName = controlName + chalk.cyanBright(':' + control.description)
@@ -60,4 +46,4 @@ class Control {
   }
 }
 
-export default Control
+module.exports = Control

@@ -1,11 +1,10 @@
-import chalk from 'chalk'
-import glob from 'glob'
-import path from 'path'
-import Control from './Control'
-import { RawControl } from './types'
+const chalk = require('chalk')
+const glob = require('glob')
+const path = require('path')
+const Control = require('./Control')
 
-const aircraftControls: { [key: string]: Control[] } = {}
-const addressLookup: { [key: number]: Control[] } = {}
+const aircraftControls = {}
+const addressLookup = {}
 
 let appData = process.env.APPDATA
 
@@ -26,12 +25,12 @@ filePaths.forEach(filePath => {
   aircraftControls[aircraftName] = []
 
   // Get the JSON data.
-  const data: object = require(filePath) // eslint-disable-line @typescript-eslint/no-var-requires
+  const data = require(filePath) // eslint-disable-line @typescript-eslint/no-var-requires
 
   // Flat map the controls into a flat array.
   const controls = Object.values(data).reduce((array, x) => array.concat(Object.values(x)), [])
 
-  controls.forEach((control: RawControl) => {
+  controls.forEach(control => {
     // Create a new control for each output.
     control.outputs.forEach(output => {
       // Convert the raw control data into a Control object.
@@ -56,4 +55,4 @@ filePaths.forEach(filePath => {
   })
 })
 
-export default { aircraftControls, addressLookup }
+module.exports = { aircraftControls, addressLookup }

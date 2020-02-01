@@ -4,39 +4,40 @@
     Icon.add-icon(v-else icon="image-plus" :clickable="false")
 </template>
 
-<script lang="ts">
-  import { ImageSettings } from '@/types'
-  import { Component, Vue, Watch, Prop } from 'vue-property-decorator'
-  import Icon from '@shared/Icon.vue'
+<script>
+  export default {
+    props: {
+      settings: { type: Object, required: true },
+      images: { type: Object, required: true }
+    },
 
-  @Component({ components: { Icon } })
-  export default class ImagePreview extends Vue {
-    @Prop() readonly settings!: ImageSettings
-    @Prop() readonly images!: { [key: string]: string }
+    data: () => ({
+      image: new Image()
+    }),
 
-    image = new Image()
+    methods: {
+      onClick(e) {
+        this.$emit('click', e)
+      },
 
-    onClick(e: Event): void {
-      this.$emit('click', e)
-    }
+      drawImage(image) {
+        // TODO: compute these
+        const canvas = this.$refs.canvas
+        const context = canvas.getContext('2d')
 
-    drawImage(image: HTMLImageElement): void {
-      const canvas = (this.$refs.canvas as HTMLCanvasElement)
-      const context = canvas.getContext('2d')
-
-      if (context) {
         context.clearRect(0, 0, canvas.width, canvas.height)
         context.drawImage(image, 0, 0, image.width, image.height, 0, 0, canvas.width, canvas.height)
       }
-    }
+    },
 
-    @Watch('settings.id')
-    onImageChanged(): void {
-      this.image.addEventListener('load', () => {
-        this.drawImage(this.image)
-      })
+    watch: {
+      'settings.id'() {
+        this.image.addEventListener('load', () => {
+          this.drawImage(this.image)
+        })
 
-      this.image.src = this.images[this.settings.id]
+        this.image.src = this.images[this.settings.id]
+      }
     }
   }
 </script>

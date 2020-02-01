@@ -1,31 +1,33 @@
 <template lang="pug">
   .search(@click="onFocus")
     Icon.search-icon(icon="magnify" :clickable="false")
-    input.input(:value="value" ref="input" @input="onInput")
+    input.input(:value="value" ref="input" spellcheck="false" @input="onInput")
     Icon.close-icon(icon="close" @click="clear" v-show="value")
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop } from 'vue-property-decorator'
-  import Icon from '@shared/Icon.vue'
+<script>
+  export default {
+    props: {
+      value: { type: String, default: '' }
+    },
 
-  @Component({ components: { Icon } })
-  export default class Search extends Vue {
-    @Prop() readonly value!: string
+    data: () => ({
+      isFocused: false
+    }),
 
-    isFocused = false
+    methods: {
+      onInput(e) {
+        this.$emit('input', e.target.value)
+      },
 
-    onInput(e: Event): void {
-      this.$emit('input', (e.target as HTMLInputElement).value)
-    }
+      onFocus() {
+        this.$refs.input.focus()
+        this.isFocused = true
+      },
 
-    onFocus(): void {
-      (this.$refs.input as HTMLInputElement).focus()
-      this.isFocused = true
-    }
-
-    clear(): void {
-      this.$emit('input', '')
+      clear() {
+        this.$emit('input', '')
+      }
     }
   }
 </script>

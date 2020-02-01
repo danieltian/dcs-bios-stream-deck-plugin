@@ -12,13 +12,11 @@
     slot(name="bottombar")
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop } from 'vue-property-decorator'
-  import Icon from '@shared/Icon.vue'
-
-  @Component({ components: { Icon } })
-  export default class Panel extends Vue {
-    @Prop() readonly title!: string
+<script>
+  export default {
+    props: {
+      title: { type: String, required: true }
+    }
   }
 </script>
 

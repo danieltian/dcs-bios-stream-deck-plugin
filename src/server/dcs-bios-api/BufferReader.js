@@ -1,22 +1,19 @@
 class BufferReader {
-  buffer: Buffer
-  offset: number
-
-  constructor(buffer: Buffer) {
+  constructor(buffer) {
     this.buffer = buffer
     this.offset = 0
   }
 
-  readWord(): number {
+  readWord() {
     const value = this.buffer.readUInt16LE(this.offset)
     this.offset = this.offset + 2
 
     return value
   }
 
-  bytesLeft(): number {
+  bytesLeft() {
     return this.buffer.length - this.offset
   }
 }
 
-export default BufferReader
+module.exports = BufferReader

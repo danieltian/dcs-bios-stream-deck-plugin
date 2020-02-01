@@ -1,28 +1,19 @@
 <template lang="pug">
-  span.mdi(:class="classNames" @click="onClick")
+  span.mdi(:class="[`mdi-${this.icon}`, { clickable }]" @click="onClick")
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop } from 'vue-property-decorator'
+<script>
+  export default {
+    props: {
+      icon: { type: String, required: true },
+      clickable: { type: Boolean, default: true }
+    },
 
-  @Component
-  export default class Icon extends Vue {
-    @Prop() readonly icon!: string
-    @Prop({ default: true }) readonly clickable!: boolean
-
-    get classNames(): string {
-      const classNames = [`mdi-${this.icon}`]
-
-      if (this.clickable) {
-        classNames.push('clickable')
-      }
-
-      return classNames.join(' ')
-    }
-
-    onClick(e: Event): void {
-      if (this.clickable) {
-        this.$emit('click', e)
+    methods: {
+      onClick(e) {
+        if (this.clickable) {
+          this.$emit('click', e)
+        }
       }
     }
   }

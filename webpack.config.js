@@ -1,12 +1,11 @@
-import path from 'path'
-import webpack from 'webpack'
-import { VueLoaderPlugin } from 'vue-loader'
-import HtmlWebpackPlugin from 'html-webpack-plugin'
-import server from './src/server'
+const path = require('path')
+const { VueLoaderPlugin } = require('vue-loader')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const server = require('./src/server')
 
-const config: webpack.Configuration = {
+module.exports = {
   mode: 'development',
-  entry: path.resolve('src', 'client', 'index.ts'),
+  entry: path.resolve('src', 'client', 'index.js'),
 
   devServer: {
     before: server,
@@ -22,8 +21,7 @@ const config: webpack.Configuration = {
 
   resolve: {
     alias: {
-      '@components': path.resolve('src', 'client', 'components'),
-      '@shared': path.resolve('src', 'client', 'components', 'shared')
+      '@components': path.resolve('src', 'client', 'components')
     }
   },
 
@@ -41,6 +39,7 @@ const config: webpack.Configuration = {
           {
             loader: 'stylus-loader',
             options: {
+              // Automatically import these style files globally.
               import: [
                 path.resolve('src', 'client', 'styles', 'colors'),
                 path.resolve('src', 'client', 'styles', 'mixins')
@@ -54,18 +53,9 @@ const config: webpack.Configuration = {
         use: 'vue-loader'
       },
       {
-        test: /\.tsx?$/,
-        use: {
-          loader: 'ts-loader',
-          options: { appendTsSuffixTo: [/\.vue$/] }
-        }
-      },
-      {
         test: /\.(woff2?|ttf|eot)$/,
         use: 'file-loader'
       }
     ]
   }
 }
-
-export default config

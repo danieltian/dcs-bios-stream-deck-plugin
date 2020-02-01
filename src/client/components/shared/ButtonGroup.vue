@@ -3,16 +3,17 @@
     .button(v-for="option in options" :class="{ selected: value == option }" @click="onClick(option)") {{ option }}
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop } from 'vue-property-decorator'
+<script>
+  export default {
+    props: {
+      options: { type: Array, required: true },
+      value: { type: String, required: true }
+    },
 
-  @Component
-  export default class ButtonGroup extends Vue {
-    @Prop() readonly options!: string[]
-    @Prop() readonly value!: string
-
-    onClick(option: string): void {
-      this.$emit('input', option)
+    methods: {
+      onClick(option) {
+        this.$emit('input', option)
+      }
     }
   }
 </script>

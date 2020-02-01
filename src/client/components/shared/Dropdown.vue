@@ -9,50 +9,53 @@
       .option(v-for="value in values" @click="onOptionClick(value)" :class="{ selected: value == selected }") {{ value }}
 </template>
 
-<script lang="ts">
-  import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
-  import Icon from '@shared/Icon.vue'
-
+<script>
   const minimumHeight = 150 // Minimum height of the dropdown.
   // How much margin to leave around the viewport so that the dropdown doesn't touch the edge of the viewport. We use a
   // percent here so that the smaller the viewport, the less margin there is.
   const viewportMarginPercent = 0.1
 
-  @Component({ components: { Icon } })
-  export default class Dropdown extends Vue {
-    @Prop() readonly values!: string[]
-    @Prop() readonly selected!: string
+  export default {
+    props: {
+      values: { type: Array, required: true },
+      selected: { type: String, required: true }
+    },
 
-    isDropdownOpen = false
-    openUpwards = false
-    maxHeight = 0
+    data: () => ({
+      isDropdownOpen: false,
+      openUpwards: false,
+      maxHeight: 0
+    }),
 
-    toggleDropdown(): void {
-      this.isDropdownOpen = !this.isDropdownOpen
-    }
+    methods: {
+      toggleDropdown() {
+        this.isDropdownOpen = !this.isDropdownOpen
+      },
 
-    onOptionClick(value: string): void {
-      this.$emit('change', value)
-      this.onBlur()
-    }
+      onOptionClick(value) {
+        this.$emit('change', value)
+        this.onBlur()
+      },
 
-    onBlur(): void {
-      this.isDropdownOpen = false
-    }
+      onBlur() {
+        this.isDropdownOpen = false
+      }
+    },
 
-    @Watch('isDropdownOpen')
-    onIsDropdownOpen(): void {
-      if (!this.isDropdownOpen) return
+    watch: {
+      isDropdownOpen() {
+        if (!this.isDropdownOpen) return
 
-      const rect = this.$el.getBoundingClientRect()
-      const viewportMargin = window.innerHeight * viewportMarginPercent
-      // Check to see if there's enough space for the dropdown to open downwards.
-      this.openUpwards = (window.innerHeight - rect.top - minimumHeight - viewportMargin) < 0
-      // Get the remaining space from the currently-selected item to the edge of the viewport. If we're opening upwards,
-      // get the space from the top of the viewport to the bottom of the item, and if we're opening downwards, get the
-      // space from the top of the item to the bottom of the viewport.
-      const remainingSpace = this.openUpwards ? (window.innerHeight - rect.bottom) : rect.top
-      this.maxHeight = Math.round(window.innerHeight - remainingSpace - viewportMargin)
+        const rect = this.$el.getBoundingClientRect()
+        const viewportMargin = window.innerHeight * viewportMarginPercent
+        // Check to see if there's enough space for the dropdown to open downwards.
+        this.openUpwards = window.innerHeight - rect.top - minimumHeight - viewportMargin < 0
+        // Get the remaining space from the currently-selected item to the edge of the viewport. If we're opening
+        // upwards, get the space from the top of the viewport to the bottom of the item, and if we're opening
+        // downwards, get the space from the top of the item to the bottom of the viewport.
+        const remainingSpace = this.openUpwards ? window.innerHeight - rect.bottom : rect.top
+        this.maxHeight = Math.round(window.innerHeight - remainingSpace - viewportMargin)
+      }
     }
   }
 </script>
@@ -76,6 +79,7 @@
       flex: 1
       padding: $item-padding
       padding-right: 0
+      white-space: nowrap
 
     .dropdown-icon
       padding-right: 0.3em
