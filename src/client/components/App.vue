@@ -1,8 +1,8 @@
 <template lang="pug">
   #app
     h1 Hello from app!
-    ControlPicker
-    //- ImageEditor
+    //- ControlPicker
+    ImageEditor
 </template>
 
 <script>

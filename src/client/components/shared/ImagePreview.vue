@@ -1,27 +1,44 @@
 <template lang="pug">
-  label.image-preview(@click="onClick" :class="{ 'has-image': settings.id }")
-    canvas.canvas(v-if="settings.id" ref="canvas")
+  label.image-preview(@click="onClick" :class="{ 'has-image': settings.image }")
+    canvas.canvas(v-if="settings.image" ref="canvas")
     Icon.add-icon(v-else icon="image-plus" :clickable="false")
 </template>
 
 <script>
   export default {
     props: {
-      settings: { type: Object, required: true },
-      images: { type: Object, required: true }
+      settings: { type: Object, required: true }
     },
 
-    data: () => ({
-      image: new Image()
-    }),
+    data: () => ({ image: new Image() }),
+
+    computed: {
+      canvas() {
+        return this.$refs.canvas
+      },
+      context() {
+        return this.canvas && this.canvas.getContext('2d')
+      }
+    },
 
     watch: {
-      'settings.id'() {
+      'settings.image'() {
         this.image.addEventListener('load', () => {
           this.drawImage(this.image)
         })
 
-        this.image.src = this.images[this.settings.id]
+        this.image.src = this.settings.image
+      },
+
+      settings: {
+        deep: true,
+        handler() {
+          this.image.addEventListener('load', () => {
+            this.drawImage(this.image)
+          })
+
+          this.image.src = this.settings.image
+        }
       }
     },
 
@@ -31,12 +48,11 @@
       },
 
       drawImage(image) {
-        // TODO: compute these
-        const canvas = this.$refs.canvas
-        const context = canvas.getContext('2d')
+        const s = this.settings
+        const canvas = this.canvas
 
-        context.clearRect(0, 0, canvas.width, canvas.height)
-        context.drawImage(image, 0, 0, image.width, image.height, 0, 0, canvas.width, canvas.height)
+        this.context.clearRect(0, 0, canvas.width, canvas.height)
+        this.context.drawImage(image, s.x, s.y, s.width, s.height, 0, 0, canvas.width, canvas.height)
       }
     }
   }
