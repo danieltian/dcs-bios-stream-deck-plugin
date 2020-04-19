@@ -18,7 +18,7 @@ class DcsBiosApi {
    * @param onUpdatesCallback - callback to invoke on control updates
    */
   start(onUpdatesCallback) {
-    udpClient.start(x => this.parseMessage(x, onUpdatesCallback))
+    udpClient.start((x) => this.parseMessage(x, onUpdatesCallback))
   }
 
   /**
@@ -47,7 +47,7 @@ class DcsBiosApi {
       let count = reader.readWord() // Number of words that we're updating.
 
       // If this is a sync command (updates are complete for this frame), we are safe to invoke the callback.
-      if (address == 0x5555 && count == 0x5555) {
+      if (address === 0x5555 && count === 0x5555) {
         onUpdatesCallback(Array.from(updatedControls))
         updatedControls = new Set() // Clear the updated controls in preparation for the next frame.
         continue
@@ -71,11 +71,11 @@ class DcsBiosApi {
         // For each control in the address, process the updated value and add the control to the update queue if its
         // value has been changed. We need to check every control because an update to an address can update multiple
         // controls.
-        controls.forEach(control => {
+        controls.forEach((control) => {
           let newValue
 
           // This is a string, get the string using the starting address and its maximum length.
-          if (control.type == 'display') {
+          if (control.type === 'display') {
             let newString = dataBuffer.toString(
               'utf8',
               closestAddressWithControls,
@@ -91,7 +91,7 @@ class DcsBiosApi {
           }
 
           const isRelevantControl = this.isRelevantControl(control)
-          const valueHasChanged = control.value != newValue
+          const valueHasChanged = control.value !== newValue
 
           // Don't add to the updated controls if the value hasn't changed or if the control has already been added.
           // Sometimes the update is simply a 'sync' that sets the same value as the existing one.
@@ -111,7 +111,7 @@ class DcsBiosApi {
   isRelevantControl(control) {
     const currentAircraft = aircraftData.addressLookup[0][0].value
 
-    return control.aircraft == currentAircraft || alwaysRelevantAircraft.includes(control.aircraft)
+    return control.aircraft === currentAircraft || alwaysRelevantAircraft.includes(control.aircraft)
   }
 }
 

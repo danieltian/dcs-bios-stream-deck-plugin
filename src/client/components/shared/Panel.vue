@@ -4,19 +4,19 @@
       .title-text {{ title }}
       Icon.close-icon(icon="close")
 
-    slot(name="topbar")
+    slot(name="topBar")
 
     .body
       slot
 
-    slot(name="bottombar")
+    slot(name="bottomBar")
 </template>
 
 <script>
   export default {
     props: {
-      title: { type: String, required: true }
-    }
+      title: { type: String, required: true },
+    },
   }
 </script>
 

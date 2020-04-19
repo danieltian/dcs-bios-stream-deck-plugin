@@ -1,6 +1,6 @@
 <template lang="pug">
   Panel.control-picker(title="Select Control")
-    template(#topbar)
+    template(#topBar)
       .filters
         Dropdown(:values="aircraftNames" :selected="selectedAircraft" @change="setSelectedAircraft")
         Search(v-model="filter")
@@ -15,8 +15,7 @@
 
   async function getJson(url) {
     const response = await fetch(url)
-    const json = await response.json()
-    return json
+    return await response.json()
   }
 
   export default {
@@ -26,7 +25,7 @@
       aircraftNames: [],
       selectedAircraft: '',
       filter: '',
-      controls: []
+      controls: [],
     }),
 
     computed: {
@@ -34,20 +33,20 @@
         if (!this.filter) return this.controls // If there's no filter, return all the controls.
 
         // Filter the controls by the category and description, removing all spaces.
-        return this.controls.filter(control => {
+        return this.controls.filter((control) => {
           const category = control.category.replace(/_ /g, '').toLocaleLowerCase()
           const description = control.description.replace(/_ /g, '').toLocaleLowerCase()
 
           return category.includes(this.filter) || description.includes(this.filter)
         })
-      }
+      },
     },
 
     watch: {
-      async selectedAircraft(newAircraft) {
+      async selectedAircraft() {
         // When selectedAircraft is changed, get the controls for it.
         this.controls = await getJson('/aircraft-controls/' + this.selectedAircraft)
-      }
+      },
     },
 
     async mounted() {
@@ -62,8 +61,8 @@
       // Change the selected aircraft.
       setSelectedAircraft(newAircraft) {
         this.selectedAircraft = newAircraft
-      }
-    }
+      },
+    },
   }
 </script>
 

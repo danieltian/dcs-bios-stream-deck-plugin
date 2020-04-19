@@ -18,7 +18,7 @@
       positionOptions: [],
       position: '',
       image: new Image(),
-      settings: { image: '', x: 0, y: 0, width: 0, height: 0 }
+      settings: { image: '', x: 0, y: 0, width: 0, height: 0 },
     }),
 
     watch: {
@@ -29,20 +29,20 @@
       position() {
         const image = this.image
 
-        if (this.position == 'left') {
+        if (this.position === 'left') {
           this.settings.x = 0
-        } else if (this.position == 'center') {
+        } else if (this.position === 'center') {
           this.settings.x = (image.width / 2) - (image.height / 2) // prettier-ignore
-        } else if (this.position == 'right') {
+        } else if (this.position === 'right') {
           this.settings.x = image.width - image.height
-        } else if (this.position == 'top') {
+        } else if (this.position === 'top') {
           this.settings.y = 0
-        } else if (this.position == 'middle') {
+        } else if (this.position === 'middle') {
           this.settings.y = (image.height / 2) - (image.width / 2) // prettier-ignore
-        } else if (this.position == 'bottom') {
+        } else if (this.position === 'bottom') {
           this.settings.y = image.height - image.width
         }
-      }
+      },
     },
 
     methods: {
@@ -75,14 +75,14 @@
 
         image.addEventListener('load', () => {
           // Fill as much of the button as possible while preserving aspect ratio.
-          if (this.scaling == 'fill') {
+          if (this.scaling === 'fill') {
             // Image is wide.
             if (image.width > image.height) {
               this.updateSettings({
                 x: (image.width / 2) - (image.height / 2), // prettier-ignore
                 y: 0,
                 width: image.height,
-                height: image.height
+                height: image.height,
               })
             }
             // Image is tall.
@@ -91,19 +91,19 @@
                 x: 0,
                 y: (image.height / 2) - (image.width / 2), // prettier-ignore
                 width: image.width,
-                height: image.width
+                height: image.width,
               })
             }
           }
           // Fit the entire image within the button while preserving aspect ratio.
-          else if (this.scaling == 'fit') {
+          else if (this.scaling === 'fit') {
             // Image is wide.
             if (image.width > image.height) {
               this.updateSettings({
                 x: 0,
                 y: (image.height / 2) - (image.width / 2), // prettier-ignore
                 width: image.width,
-                height: image.width
+                height: image.width,
               })
             }
             // Image is tall.
@@ -112,17 +112,17 @@
                 x: (image.width / 2) - (image.height / 2), // prettier-ignore
                 y: 0,
                 width: image.height,
-                height: image.height
+                height: image.height,
               })
             }
           }
           // Fill the entire button with the image, ignoring aspect ratio.
-          else if (this.scaling == 'stretch') {
+          else if (this.scaling === 'stretch') {
             this.updateSettings({
               x: 0,
               y: 0,
               width: image.width,
-              height: image.height
+              height: image.height,
             })
           }
 
@@ -134,8 +134,8 @@
             this.position = 'middle'
           }
         })
-      }
-    }
+      },
+    },
   }
 </script>
 

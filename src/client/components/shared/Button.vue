@@ -5,8 +5,8 @@
 <script>
   export default {
     props: {
-      text: { type: String, required: true }
-    }
+      text: { type: String, required: true },
+    },
   }
 </script>
 

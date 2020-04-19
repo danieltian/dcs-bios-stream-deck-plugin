@@ -1,20 +1,20 @@
 <template lang="pug">
   .button-group
-    .button(v-for="option in options" :class="{ selected: value == option }" @click="onClick(option)") {{ option }}
+    .button(v-for="option in options" :class="{ selected: value === option }" @click="onClick(option)") {{ option }}
 </template>
 
 <script>
   export default {
     props: {
       options: { type: Array, required: true },
-      value: { type: String, required: true }
+      value: { type: String, required: true },
     },
 
     methods: {
       onClick(option) {
         this.$emit('input', option)
-      }
-    }
+      },
+    },
   }
 </script>
 

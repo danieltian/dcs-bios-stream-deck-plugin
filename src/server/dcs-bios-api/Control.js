@@ -8,12 +8,12 @@ class Control {
     this.aircraft = aircraftName
     this.category = control.category
     this.description = control.description || control.category
-    this.inputs = control.inputs.map(x => x.interface + (x.max_value ? ':' + x.max_value : ''))
+    this.inputs = control.inputs.map((x) => x.interface + (x.max_value ? ':' + x.max_value : ''))
     this.output = output.description || control.description
     this.maxLength = output.max_length
     this.mask = output.mask
     this.shiftBy = output.shift_by
-    this.type = control.control_type == 'selector' ? control.physical_variant || 'selector' : control.control_type
+    this.type = control.control_type === 'selector' ? control.physical_variant || 'selector' : control.control_type
     this.suffix = output.suffix
   }
 
@@ -24,7 +24,7 @@ class Control {
     }
 
     // Display a warning if the control is a selector, but has no physical variant.
-    if (control.control_type == 'selector' && !control.physical_variant) {
+    if (control.control_type === 'selector' && !control.physical_variant) {
       console.log(
         chalk.yellow('[WARN] control physical variant is undefined, defaulting to "selector" for type:', controlName)
       )

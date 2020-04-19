@@ -6,7 +6,7 @@
   export default {
     props: {
       icon: { type: String, required: true },
-      clickable: { type: Boolean, default: true }
+      clickable: { type: Boolean, default: true },
     },
 
     methods: {
@@ -14,8 +14,8 @@
         if (this.clickable) {
           this.$emit('click', e)
         }
-      }
-    }
+      },
+    },
   }
 </script>
 

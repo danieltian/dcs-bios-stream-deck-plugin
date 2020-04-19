@@ -10,7 +10,7 @@
   import ImageEditor from '@components/ImageEditor/ImageEditor.vue'
 
   export default {
-    components: { ControlPicker, ImageEditor }
+    components: { ControlPicker, ImageEditor },
   }
 </script>
 

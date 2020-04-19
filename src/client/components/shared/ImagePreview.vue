@@ -7,7 +7,7 @@
 <script>
   export default {
     props: {
-      settings: { type: Object, required: true }
+      settings: { type: Object, required: true },
     },
 
     data: () => ({ image: new Image() }),
@@ -18,7 +18,7 @@
       },
       context() {
         return this.canvas && this.canvas.getContext('2d')
-      }
+      },
     },
 
     watch: {
@@ -38,8 +38,8 @@
           })
 
           this.image.src = this.settings.image
-        }
-      }
+        },
+      },
     },
 
     methods: {
@@ -53,8 +53,8 @@
 
         this.context.clearRect(0, 0, canvas.width, canvas.height)
         this.context.drawImage(image, s.x, s.y, s.width, s.height, 0, 0, canvas.width, canvas.height)
-      }
-    }
+      },
+    },
   }
 </script>
 

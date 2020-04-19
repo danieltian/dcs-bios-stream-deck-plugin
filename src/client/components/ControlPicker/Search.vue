@@ -8,11 +8,11 @@
 <script>
   export default {
     props: {
-      value: { type: String, default: '' }
+      value: { type: String, default: '' },
     },
 
     data: () => ({
-      isFocused: false
+      isFocused: false,
     }),
 
     methods: {
@@ -27,8 +27,8 @@
 
       clear() {
         this.$emit('input', '')
-      }
-    }
+      },
+    },
   }
 </script>
 

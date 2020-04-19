@@ -6,7 +6,7 @@
 
     .overlay(@click="onBlur" v-show="isDropdownOpen")
     .options(v-show="isDropdownOpen" :class="{ upwards: openUpwards }" :style="{ maxHeight: `${maxHeight}px` }")
-      .option(v-for="value in values" @click="onOptionClick(value)" :class="{ selected: value == selected }") {{ value }}
+      .option(v-for="value in values" @click="onOptionClick(value)" :class="{ selected: value === selected }") {{ value }}
 </template>
 
 <script>
@@ -18,13 +18,13 @@
   export default {
     props: {
       values: { type: Array, required: true },
-      selected: { type: String, required: true }
+      selected: { type: String, required: true },
     },
 
     data: () => ({
       isDropdownOpen: false,
       openUpwards: false,
-      maxHeight: 0
+      maxHeight: 0,
     }),
 
     watch: {
@@ -40,7 +40,7 @@
         // downwards, get the space from the top of the item to the bottom of the viewport.
         const remainingSpace = this.openUpwards ? window.innerHeight - rect.bottom : rect.top
         this.maxHeight = Math.round(window.innerHeight - remainingSpace - viewportMargin)
-      }
+      },
     },
 
     methods: {
@@ -55,8 +55,8 @@
 
       onBlur() {
         this.isDropdownOpen = false
-      }
-    }
+      },
+    },
   }
 </script>
 

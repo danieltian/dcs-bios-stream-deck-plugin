@@ -14,8 +14,7 @@
 
     computed: {
       controlType() {
-        const type = this.control.type.replace(/_/g, ' ') // Replace underscores with spaces.
-        return type
+        return this.control.type.replace(/_/g, ' ') // Replace underscores with spaces.
       },
 
       color() {
@@ -45,14 +44,14 @@
           default:
             return 'gray'
         }
-      }
+      },
     },
 
     methods: {
       onClick(e) {
         this.$emit('click', e)
-      }
-    }
+      },
+    },
   }
 </script>
 

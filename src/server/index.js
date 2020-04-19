@@ -3,7 +3,7 @@ const aircraftData = require('./dcs-bios-api/aircraft-data')
 // Cache the aircraft names.
 const aircraftNames = Object.keys(aircraftData.aircraftControls)
 
-module.exports = app => {
+module.exports = (app) => {
   // Get the list of aircraft names.
   app.get('/aircraft-names', (request, response) => {
     response.send(aircraftNames)
