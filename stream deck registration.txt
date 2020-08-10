@@ -1,0 +1,25 @@
+Stream Deck registration data:
+
+{
+  port: 28196,
+  pluginUUID: "9275AF9A1B4859289D05BCBE9371BFBF",
+  registerEvent: "registerPlugin",
+  info: JSON: {
+    application: {
+      language: "en",
+      platform: "windows",
+      version: "4.8.1.13027"
+    },
+    devicePixelRatio: 1,
+    devices: [
+      {
+        id: "",
+        name: "Stream Deck",
+        size: { columns: 5, rows: 3}
+      }
+    ],
+    plugin: {
+      version: "0.0.1"
+    }
+  }
+}

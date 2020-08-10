@@ -1,0 +1,27 @@
+{
+  "Actions": [
+    {
+      "Icon": "actionIcon",
+      "Name": "DCS BIOS Control",
+      "UUID": "stream-deck-dcs-bios.control"
+    }
+  ],
+  "Author": "Daniel Tian",
+  "Category": "DCS BIOS",
+  "CodePath": "server.exe",
+  "Description": "DCS BIOS Integration",
+  "Icon": "icon",
+  "Name": "DCS BIOS",
+  "DefaultWindowSize": [1200, 800],
+  "Version": "0.0.1",
+  "SDKVersion": 2,
+  "OS": [
+    {
+      "Platform": "windows",
+      "MinimumVersion": "10"
+    }
+  ],
+  "Software": {
+    "MinimumVersion": "4.1"
+  }
+}

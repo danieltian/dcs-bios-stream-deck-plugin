@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f6bff0ba-6d05-4ae9-bb8c-5164852755cf" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/prettier.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/stream-deck-plugin.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dcs-bios.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/server/dcs-bios-api/module-data.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test.json" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1focE6cNcv8XPvliAqNV2KUTgne" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="javascript.nodejs.core.library.configured.version" value="14.7.0" />
+    <property name="javascript.nodejs.core.library.typings.version" value="14.0.27" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.standard" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.standard" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.standard" value="" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="prettierjs.PrettierConfiguration.Package" value="C:\Users\danie\AppData\Roaming\Elgato\StreamDeck\Plugins\dcsbios.sdPlugin\node_modules\prettier" />
+    <property name="run.prettier.on.save" value="true" />
+    <property name="settings.editor.selected.configurable" value="settings.javascript.linters.eslint" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\danie\AppData\Roaming\Elgato\StreamDeck\Plugins\dcsbios.sdPlugin\src\server\dcs-bios-api" />
+      <recent name="C:\Users\danie\AppData\Roaming\Elgato\StreamDeck\Plugins\dcsbios.sdPlugin" />
+      <recent name="C:\Users\danie\Desktop\stream-deck-plugin\src\server\dcs-bios-api" />
+      <recent name="C:\Users\danie\Desktop\stream-deck-plugin\src" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Node.js.module-data.js">
+    <configuration name="module-data.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/src/server/dcs-bios-api/module-data.js" working-dir="$PROJECT_DIR$">
+      <method v="2" />
+    </configuration>
+    <configuration name="package" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="package" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Node.js.module-data.js" />
+        <item itemvalue="npm.package" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1795" y="306" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1596897268377">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state x="1795" y="306" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.2752.1112@0.0.2752.1112" timestamp="1596897268377" />
+    <state width="1362" height="863" key="DebuggerActiveHint" timestamp="1597062053704">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state width="1362" height="863" key="DebuggerActiveHint/0.0.2752.1112@0.0.2752.1112" timestamp="1597062053704" />
+    <state x="1165" y="311" key="FileChooserDialogImpl" timestamp="1596895740170">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state x="1165" y="311" key="FileChooserDialogImpl/0.0.2752.1112@0.0.2752.1112" timestamp="1596895740170" />
+    <state width="1991" height="376" key="GridCell.Tab.-1.bottom" timestamp="1597061633207">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state width="1991" height="376" key="GridCell.Tab.-1.bottom/0.0.2752.1112@0.0.2752.1112" timestamp="1597061633207" />
+    <state width="1991" height="376" key="GridCell.Tab.-1.center" timestamp="1597061633207">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state width="1991" height="376" key="GridCell.Tab.-1.center/0.0.2752.1112@0.0.2752.1112" timestamp="1597061633207" />
+    <state width="1991" height="376" key="GridCell.Tab.-1.left" timestamp="1597061633207">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state width="1991" height="376" key="GridCell.Tab.-1.left/0.0.2752.1112@0.0.2752.1112" timestamp="1597061633207" />
+    <state width="1991" height="376" key="GridCell.Tab.-1.right" timestamp="1597061633207">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state width="1991" height="376" key="GridCell.Tab.-1.right/0.0.2752.1112@0.0.2752.1112" timestamp="1597061633207" />
+    <state width="1940" height="304" key="GridCell.Tab.0.bottom" timestamp="1597068442462">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state width="1940" height="304" key="GridCell.Tab.0.bottom/0.0.2752.1112@0.0.2752.1112" timestamp="1597068442462" />
+    <state width="1940" height="304" key="GridCell.Tab.0.center" timestamp="1597068442462">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state width="1940" height="304" key="GridCell.Tab.0.center/0.0.2752.1112@0.0.2752.1112" timestamp="1597068442462" />
+    <state width="1940" height="304" key="GridCell.Tab.0.left" timestamp="1597068442461">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state width="1940" height="304" key="GridCell.Tab.0.left/0.0.2752.1112@0.0.2752.1112" timestamp="1597068442461" />
+    <state width="1940" height="304" key="GridCell.Tab.0.right" timestamp="1597068442462">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state width="1940" height="304" key="GridCell.Tab.0.right/0.0.2752.1112@0.0.2752.1112" timestamp="1597068442462" />
+    <state width="1940" height="305" key="GridCell.Tab.1.bottom" timestamp="1597068131100">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state width="1940" height="305" key="GridCell.Tab.1.bottom/0.0.2752.1112@0.0.2752.1112" timestamp="1597068131100" />
+    <state width="1940" height="305" key="GridCell.Tab.1.center" timestamp="1597068131100">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state width="1940" height="305" key="GridCell.Tab.1.center/0.0.2752.1112@0.0.2752.1112" timestamp="1597068131100" />
+    <state width="1940" height="305" key="GridCell.Tab.1.left" timestamp="1597068131100">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state width="1940" height="305" key="GridCell.Tab.1.left/0.0.2752.1112@0.0.2752.1112" timestamp="1597068131100" />
+    <state width="1940" height="305" key="GridCell.Tab.1.right" timestamp="1597068131100">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state width="1940" height="305" key="GridCell.Tab.1.right/0.0.2752.1112@0.0.2752.1112" timestamp="1597068131100" />
+    <state width="1940" height="305" key="GridCell.Tab.2.bottom" timestamp="1597068131100">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state width="1940" height="305" key="GridCell.Tab.2.bottom/0.0.2752.1112@0.0.2752.1112" timestamp="1597068131100" />
+    <state width="1940" height="305" key="GridCell.Tab.2.center" timestamp="1597068131100">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state width="1940" height="305" key="GridCell.Tab.2.center/0.0.2752.1112@0.0.2752.1112" timestamp="1597068131100" />
+    <state width="1940" height="305" key="GridCell.Tab.2.left" timestamp="1597068131100">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state width="1940" height="305" key="GridCell.Tab.2.left/0.0.2752.1112@0.0.2752.1112" timestamp="1597068131100" />
+    <state width="1940" height="305" key="GridCell.Tab.2.right" timestamp="1597068131100">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state width="1940" height="305" key="GridCell.Tab.2.right/0.0.2752.1112@0.0.2752.1112" timestamp="1597068131100" />
+    <state width="1306" height="321" key="GridCell.Tab.3.bottom" timestamp="1597062545059">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state width="1306" height="321" key="GridCell.Tab.3.bottom/0.0.2752.1112@0.0.2752.1112" timestamp="1597062545059" />
+    <state width="1306" height="321" key="GridCell.Tab.3.center" timestamp="1597062545058">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state width="1306" height="321" key="GridCell.Tab.3.center/0.0.2752.1112@0.0.2752.1112" timestamp="1597062545058" />
+    <state width="1306" height="321" key="GridCell.Tab.3.left" timestamp="1597062545058">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state width="1306" height="321" key="GridCell.Tab.3.left/0.0.2752.1112@0.0.2752.1112" timestamp="1597062545058" />
+    <state width="1306" height="321" key="GridCell.Tab.3.right" timestamp="1597062545059">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state width="1306" height="321" key="GridCell.Tab.3.right/0.0.2752.1112@0.0.2752.1112" timestamp="1597062545059" />
+    <state x="1027" y="218" width="1126" height="738" key="Registry" timestamp="1597064046992">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state x="1027" y="218" width="1126" height="738" key="Registry/0.0.2752.1112@0.0.2752.1112" timestamp="1597064046992" />
+    <state x="613" y="350" width="981" height="707" key="SettingsEditor" timestamp="1597068141943">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state x="613" y="350" width="981" height="707" key="SettingsEditor/0.0.2752.1112@0.0.2752.1112" timestamp="1597068141943" />
+    <state x="1251" y="357" width="1320" height="630" key="dock-window-1" timestamp="1597062577965">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state x="1251" y="357" width="1320" height="630" key="dock-window-1/0.0.2752.1112@0.0.2752.1112" timestamp="1597062577965" />
+    <state x="539" y="309" width="672" height="678" key="search.everywhere.popup" timestamp="1597064035681">
+      <screen x="0" y="0" width="2752" height="1112" />
+    </state>
+    <state x="539" y="309" width="672" height="678" key="search.everywhere.popup/0.0.2752.1112@0.0.2752.1112" timestamp="1597064035681" />
+  </component>
+</project>

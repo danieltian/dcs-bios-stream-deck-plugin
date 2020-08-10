@@ -1,0 +1,31 @@
+{
+  "layers": [
+    {
+      "type": "image",
+      "image": "DEADBEEF",
+      "name": "random_button_off.png",
+      "controls": [
+        {
+          "id": "CONTROL_ID_1",
+          "condition": "gt,lt,eq",
+          "value": 5
+        },
+        {
+          "id": "CONTROL_ID_2",
+          "condition": "gt,lt,eq",
+          "value": 10
+        }
+      ]
+    }
+  ],
+  "actions": {
+    "pressed": {
+      "id": "CONTROL_ID_1",
+      "command": "10/INC/DEC/TOGGLE"
+    },
+    "released": {
+      "id": "CONTROL_ID_2",
+      "command": "10/INC/DEC/TOGGLE"
+    }
+  }
+}
