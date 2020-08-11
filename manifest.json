@@ -8,7 +8,7 @@
   ],
   "Author": "Daniel Tian",
   "Category": "DCS BIOS",
-  "CodePath": "server.exe",
+  "CodePath": "debug.exe",
   "Description": "DCS BIOS Integration",
   "Icon": "icon",
   "Name": "DCS BIOS",

@@ -19,7 +19,7 @@ module.exports = {
       client.addMembership('239.255.50.10')
 
       const message = chalk.green('UDP client listening on')
-      const addressInfo = chalk.yellow(address.address + ':' + address.port)
+      const addressInfo = chalk.yellowBright(address.address + ':' + address.port)
       console.log(message, addressInfo)
     })
 

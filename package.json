@@ -2,11 +2,11 @@
   "name": "dcs-bios-stream-deck-plugin",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "proxy.js",
   "scripts": {
     "start": "webpack-dev-server --hot",
     "lint": "eslint . --ext .js,.vue",
-    "package": "pkg server.js -t host"
+    "package": "pkg debug.js -t host"
   },
   "author": "",
   "license": "ISC",

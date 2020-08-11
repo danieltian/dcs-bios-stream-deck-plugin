@@ -15,8 +15,8 @@
 
 const DcsBiosApi = require('./dcs-bios-api')
 
-DcsBiosApi.start((outputs) => {
-  outputs.forEach((output) => {
-    console.log(`${output.control.identifier}: ${output.value}`)
+DcsBiosApi.start((updatedOutputs) => {
+  updatedOutputs.forEach((output) => {
+    console.log(`${output.globalId}: ${output.value}`)
   })
 })
