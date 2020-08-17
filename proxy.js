@@ -1,7 +1,7 @@
 const WebSocket = require('ws')
 const chalk = require('chalk')
 
-const flags = {}
+const flags = { event: 'register' }
 let currentFlag
 
 // Process all the flags passed in from the Stream Deck.
@@ -19,17 +19,25 @@ process.argv.forEach((argument) => {
 
 console.log(chalk`{redBright [Flags]} ${JSON.stringify(flags)}`)
 
-const messages = []
+const messages = [JSON.stringify(flags)]
 const server = new WebSocket.Server({ port: 5555 }) // Create the server that proxies the Stream Deck WebSocket.
 const streamDeckSocket = new WebSocket(`ws://localhost:${flags.port}`) // Connect to the Stream Deck WebSocket.
 
 server.on('connection', (ws) => {
   console.log(chalk.cyanBright('client connected'))
   messages.forEach((message) => ws.send(message)) // When the client connects, immediately send the saved messages.
+  // Send received messages to the Stream Deck socket.
   ws.on('message', (message) => {
-    console.log(chalk`{greenBright [Client]} ${message}`)
     streamDeckSocket.send(message)
-  }) // Send received messages to the Stream Deck socket.
+
+    const data = JSON.parse(message)
+
+    if (data.payload && data.payload.image) {
+      data.payload.image = data.payload.image.slice(0, 50) + '...'
+    }
+
+    console.log(chalk`{greenBright [Client]} ${JSON.stringify(data)}`)
+  })
 })
 
 // When the connection is open, send the registration command.

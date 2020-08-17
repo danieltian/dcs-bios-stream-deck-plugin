@@ -2,6 +2,7 @@ const { addressLookup } = require('./module-data')
 const udpClient = require('./udp-multicast-client')
 const chalk = require('chalk')
 const BufferReader = require('./BufferReader')
+const EventEmitter = require('events')
 
 /*
 Global modules are modules that get updated regardless of which aircraft is currently in use. Because multiple aircraft
@@ -67,10 +68,12 @@ function parseMessage(message, onUpdatesCallback) {
         // Output is a string, treat the new value as a partial string update.
         if (output.type === 'string') {
           // Create a buffer from the existing string, write the updated data to it, then convert it back to a string.
-          const buffer = Buffer.alloc(output.max_length, ' ')
+          // Buffer size needs to be the rounded to the next highest even number because of <fill out description here>.
+          const bufferSize = Math.ceil(output.max_length / 2) * 2
+          const buffer = Buffer.alloc(bufferSize, ' ')
           buffer.write(output.value || '')
           buffer.writeUInt16LE(rawValue, address - controlAddress)
-          newValue = buffer.toString().replace(/\0/g, '').trim()
+          newValue = buffer.toString('utf8', 0, output.max_length).replace(/\0/g, '').trim()
         }
         // This is a number, get the value using the mask and the bit shift amount.
         else {
@@ -91,20 +94,29 @@ function parseMessage(message, onUpdatesCallback) {
   }
 }
 
-module.exports = {
+class DcsBiosApi extends EventEmitter {
   /**
    * Start listening for new messages from DCS BIOS.
    * @param onUpdatesCallback - callback to invoke on control updates
    */
-  start(onUpdatesCallback) {
-    udpClient.start((x) => parseMessage(x, onUpdatesCallback))
-  },
+  start() {
+    udpClient.start((x) =>
+      parseMessage(x, (updatedOutputs) => {
+        updatedOutputs.forEach((output) => {
+          this.emit(output.globalId, output.value)
+        })
+      })
+    )
+  }
 
   /**
    * Send a message to DCS BIOS.
    * @param message - message to send
    */
   sendMessage(message) {
+    console.log('sending message', message)
     return udpClient.sendMessage(message.trim() + '\n')
-  },
+  }
 }
+
+module.exports = new DcsBiosApi()

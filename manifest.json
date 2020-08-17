@@ -3,7 +3,12 @@
     {
       "Icon": "actionIcon",
       "Name": "DCS BIOS Control",
-      "UUID": "stream-deck-dcs-bios.control"
+      "UUID": "stream-deck-dcs-bios.control",
+      "States": [
+        {
+          "Image": "actionImage"
+        }
+      ]
     }
   ],
   "Author": "Daniel Tian",

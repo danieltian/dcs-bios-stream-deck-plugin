@@ -40,7 +40,7 @@ filePaths.forEach((filePath) => {
       addressLookup[address] = addressLookup[address] || []
       addressLookup[address].push(output)
 
-      const globalId = `${moduleName}/${control.category}/${control.identifier}/${output.suffix}`
+      const globalId = `${moduleName}/${control.category}/${control.identifier}${output.suffix}`
       output.globalId = globalId
 
       if (outputLookup[globalId]) {
