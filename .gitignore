@@ -1,5 +1,7 @@
-node_modules
 .idea/**/workspace.xml
 .idea/*.iml
-dist/
 .idea/dictionaries
+.idea/shelf
+node_modules
+dist/
+git

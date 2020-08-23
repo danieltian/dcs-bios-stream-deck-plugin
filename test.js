@@ -43,6 +43,12 @@ eventEmitter.on('propertyInspectorDidAppear', (data) => {
   currentButtonContext = data.context
 })
 
+eventEmitter.on('didReceiveSettings', (data) => {
+  const button = new Button(data.payload.settings)
+  button.on('imageChanged', (image) => drawImage(image, data.context))
+  buttons.set(data.context, button)
+})
+
 function sendCommand(event, context, payload) {
   const data = { event, context, payload }
   socket.send(JSON.stringify(data))
@@ -95,6 +101,16 @@ server.on('connection', (ws) => {
     })
   )
 
+  eventEmitter.on('propertyInspectorDidAppear', (data) => {
+    ws.send(
+      JSON.stringify({
+        event: 'didReceiveSettings',
+        context: data.context,
+        payload: { settings: buttons.get(currentButtonContext).settings },
+      })
+    )
+  })
+
   ws.on('message', (json) => {
     socket.send(json)
 
@@ -102,13 +118,10 @@ server.on('connection', (ws) => {
 
     if (data.event === 'setSettings') {
       const button = buttons.get(currentButtonContext)
-
       button.destroy()
-      const newButton = new Button(data.payload)
-      button.on('imageChanged', (image) => {
-        drawImage(image, data.context)
-      })
-      buttons.set(currentButtonContext, newButton)
+      buttons.delete(button)
+
+      socket.send('getSettings', currentButtonContext)
     }
   })
 })
