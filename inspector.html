@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      function connectElgatoStreamDeckSocket(inPort, inPropertyInspectorUUID, inRegisterEvent, inInfo, inActionInfo) {
+        const websocket = new WebSocket("ws://localhost:" + inPort)
+
+        websocket.onopen = function()
+        {
+          var json = {
+            "event": inRegisterEvent,
+            "uuid": inPropertyInspectorUUID
+          }
+
+          websocket.send(JSON.stringify(json))
+        }
+
+        websocket.onmessage = (message) => console.log(message)
+      }
+
+      function openWindow() {
+        const popup = window.open('http://google.com')
+        popup.someData = 'some data from the inspector'
+      }
+    </script>
+  </head>
+
+  <body>
+  <button onclick="openWindow">Open</button>
+  </body>
+</html>

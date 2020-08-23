@@ -1,14 +1,12 @@
 const path = require('path')
 const { VueLoaderPlugin } = require('vue-loader')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const server = require('./src/server')
 
 module.exports = {
   mode: 'development',
   entry: path.resolve('src', 'client', 'index.js'),
 
   devServer: {
-    before: server,
     stats: 'errors-warnings',
   },
 
@@ -36,16 +34,14 @@ module.exports = {
         use: [
           'vue-style-loader',
           'css-loader',
-          {
-            loader: 'stylus-loader',
-            options: {
-              // Automatically import these style files globally.
-              import: [
-                path.resolve('src', 'client', 'styles', 'colors'),
-                path.resolve('src', 'client', 'styles', 'mixins'),
-              ],
-            },
-          },
+          'stylus-loader',
+          // {
+          //   loader: 'stylus-loader',
+          //   // options: {
+          //   //   // Automatically import these style files globally.
+          //   //   import: [path.resolve('src', 'client', 'styles', 'colors.styl')],
+          //   // },
+          // },
         ],
       },
       {

@@ -39,12 +39,12 @@
       ]
     }
   ],
-  "actions": {
-    "pressed": {
+  "inputs": {
+    "press": {
       "globalId": "Ka-50/Autopilot Panel/AP_ALT_HOLD_BTN",
       "command": "1"
     },
-    "released": {
+    "release": {
       "globalId": "Ka-50/Autopilot Panel/AP_ALT_HOLD_BTN",
       "command": "0"
     }
