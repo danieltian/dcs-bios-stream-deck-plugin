@@ -1,3 +1,5 @@
 node_modules
 .idea/**/workspace.xml
 .idea/*.iml
+dist/
+.idea/dictionaries

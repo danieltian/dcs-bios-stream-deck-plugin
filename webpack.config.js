@@ -8,6 +8,7 @@ module.exports = {
 
   devServer: {
     stats: 'errors-warnings',
+    hot: true,
   },
 
   plugins: [

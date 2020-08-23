@@ -1,5 +1,6 @@
 const WebSocket = require('ws')
 const chalk = require('chalk')
+const clone = require('./clone')
 
 const flags = { event: 'register' }
 let currentFlag
@@ -32,11 +33,7 @@ server.on('connection', (ws) => {
 
     const data = JSON.parse(message)
 
-    if (data.payload && data.payload.image) {
-      data.payload.image = data.payload.image.slice(0, 50) + '...'
-    }
-
-    console.log(chalk`{greenBright [Client]} ${JSON.stringify(data)}`)
+    console.log(chalk`{greenBright [Client]} ${JSON.stringify(clone(data))}`)
   })
 })
 
@@ -47,7 +44,7 @@ streamDeckSocket.on('open', () => {
 })
 
 streamDeckSocket.on('message', (message) => {
-  console.log(chalk`{yellowBright [Stream Deck]} ${message}`)
+  console.log(chalk`{yellowBright [Stream Deck]} ${clone(message)}`)
   messages.push(message)
   server.clients.forEach((client) => {
     if (client !== server && client.readyState === WebSocket.OPEN) {

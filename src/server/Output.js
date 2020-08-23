@@ -26,7 +26,7 @@ class Output extends EventEmitter {
 
     switch (this.condition) {
       case 'eq':
-        if (newValue === this.value) newActive = true
+        if (newValue.toString() === this.value) newActive = true
         break
       case 'gt':
         if (newValue > this.value) newActive = true
@@ -41,7 +41,7 @@ class Output extends EventEmitter {
         if (newValue <= this.value) newActive = true
         break
       case 'neq':
-        if (newValue !== this.value) newActive = true
+        if (newValue.toString() !== this.value) newActive = true
         break
       case 'contains':
         if (newValue.includes(this.value)) newActive = true

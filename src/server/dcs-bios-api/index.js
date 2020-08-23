@@ -18,7 +18,7 @@ const updatedOutputs = new Set()
  * @returns {boolean} whether the output data is for the current module
  */
 function isOutputForCurrentModule(output) {
-  return output.module === addressLookup[0][0].value || globalModules.includes(output.module)
+  return output.module === addressLookup.get(0)[0].value || globalModules.includes(output.module)
 }
 
 /**
@@ -52,11 +52,11 @@ function parseMessage(message, onUpdatesCallback) {
       // Find the closest address that has controls. This is needed for partial string updates where the address from
       // the message won't match up with an address in the address lookup, so we need to get the closest one to the
       // current address.
-      while (!addressLookup[controlAddress]) {
+      while (!addressLookup.has(controlAddress)) {
         controlAddress = controlAddress - 2
       }
 
-      const outputs = addressLookup[controlAddress]
+      const outputs = addressLookup.get(controlAddress)
       const rawValue = reader.readWord()
 
       // For each output in the address, process the updated value and add the output to the update queue if its value

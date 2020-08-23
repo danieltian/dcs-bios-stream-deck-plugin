@@ -5,9 +5,9 @@ const chalk = require('chalk')
 // Get all the .json files from %APPDATA%\DCS-BIOS\control-reference-json.
 const filePaths = glob.sync(path.join(process.env.APPDATA, 'DCS-BIOS', 'control-reference-json', '*.json'))
 
-const modules = {} // Used by the frontend to get a list of controls for a module.
-const addressLookup = {} // Used by DCS BIOS API to update the outputs at a particular address.
-const outputLookup = {} // Used by the frontend and the server to get the output from the ID saved in the JSON.
+const modules = new Map() // Used by the frontend to get a list of controls for a module.
+const addressLookup = new Map() // Used by DCS BIOS API to update the outputs at a particular address.
+const outputLookup = new Map() // Used by the frontend and the server to get the output from the ID saved in the JSON.
 
 filePaths.forEach((filePath) => {
   // Skip MetadataEnd, it contains counters that endlessly update, but this creates a lot of noise when debugging
@@ -18,13 +18,13 @@ filePaths.forEach((filePath) => {
   const data = require(filePath)
   const controls = Object.values(data).flatMap((x) => Object.values(x)) // Map the nested controls into a flat array.
 
-  modules[moduleName] = { outputs: [], inputs: [] }
+  modules.set(moduleName, { outputs: [], inputs: [] })
 
   // Process each control's inputs and outputs.
   controls.forEach((control) => {
     // TODO: Is this needed?
     if (control.inputs.length) {
-      modules[moduleName].inputs.push(control)
+      modules.get(moduleName).inputs.push(control)
     }
 
     control.outputs.forEach((output) => {
@@ -33,20 +33,24 @@ filePaths.forEach((filePath) => {
       output.module = moduleName
       output.control = control // TODO: Is this needed?
 
-      modules[moduleName].outputs.push(output) // Add the output to the module.
+      modules.get(moduleName).outputs.push(output) // Add the output to the module.
 
       // Add the output to the address lookup. There can be multiple outputs per address.
       const address = output.address
-      addressLookup[address] = addressLookup[address] || []
-      addressLookup[address].push(output)
 
-      const globalId = `${moduleName}/${control.category}/${control.identifier}${output.suffix}`
+      if (!addressLookup.has(address)) {
+        addressLookup.set(address, [])
+      }
+
+      addressLookup.get(address).push(output)
+
+      const globalId = `${moduleName}/${control.identifier}${output.suffix}`
       output.globalId = globalId
 
-      if (outputLookup[globalId]) {
+      if (outputLookup.has(globalId)) {
         console.log(chalk.redBright(`output with ID ${globalId} already exists:`, output))
       } else {
-        outputLookup[globalId] = output
+        outputLookup.set(globalId, output)
       }
     })
   })

@@ -1,6 +1,5 @@
 const WebSocket = require('ws')
 const events = require('events')
-const settings = require('./mock-settings.json')
 const dcsBiosApi = require('./src/server/dcs-bios-api')
 const Button = require('./src/server/Button')
 const { outputLookup } = require('./src/server/dcs-bios-api/module-data')
@@ -10,12 +9,11 @@ const socket = new WebSocket('ws://localhost:5555')
 
 socket.on('message', (message) => {
   const data = JSON.parse(message)
-  console.log(message)
   eventEmitter.emit(data.event, data)
 })
 
 let flags
-let buttons = {}
+let buttons = new Map()
 let currentButtonContext
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -27,12 +25,18 @@ eventEmitter.on('register', (data) => {
 })
 
 eventEmitter.on('willAppear', (data) => {
-  buttons[data.context] = new Button(data.payload.settings)
+  const button = new Button(data.payload.settings)
+  button.on('imageChanged', (image) => drawImage(image, data.context))
+  buttons.set(data.context, button)
 })
 
 eventEmitter.on('willDisappear', (data) => {
-  buttons[data.context].destroy()
-  delete buttons[data.context]
+  const button = buttons.get(data.context)
+
+  if (button) {
+    button.destroy()
+    buttons.delete(button)
+  }
 })
 
 eventEmitter.on('propertyInspectorDidAppear', (data) => {
@@ -44,31 +48,25 @@ function sendCommand(event, context, payload) {
   socket.send(JSON.stringify(data))
 }
 
-function drawImage(image) {
-  sendCommand('setImage', '5B0948D5AEE897C2C64A43F15D477EC6', { image, target: 0 })
+function drawImage(image, context) {
+  sendCommand('setImage', context, { image, target: 0 })
 }
-
-// ---------------------------------------------------------------------------------------------------------------------
-// Image drawing
-// ---------------------------------------------------------------------------------------------------------------------
-
-const button = new Button(settings)
-
-button.on('imageChanged', (image) => drawImage(image))
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Stream Deck key up/down processing
 // ---------------------------------------------------------------------------------------------------------------------
 
-eventEmitter.on('keyDown', () => {
-  const id = outputLookup[settings.inputs.pressed.globalId].control.identifier
-  const action = `${id} ${settings.inputs.pressed.command}`
+eventEmitter.on('keyDown', ({ context }) => {
+  const config = buttons.get(context).settings.inputs.press
+  const id = outputLookup.get(config.globalId).control.identifier
+  const action = `${id} ${config.command}`
   dcsBiosApi.sendMessage(action)
 })
 
-eventEmitter.on('keyUp', () => {
-  const id = outputLookup[settings.inputs.released.globalId].control.identifier
-  const action = `${id} ${settings.inputs.released.command}`
+eventEmitter.on('keyUp', ({ context }) => {
+  const config = buttons.get(context).settings.inputs.release
+  const id = outputLookup.get(config.globalId).control.identifier
+  const action = `${id} ${config.command}`
   dcsBiosApi.sendMessage(action)
 })
 
@@ -93,7 +91,7 @@ server.on('connection', (ws) => {
     JSON.stringify({
       event: 'didReceiveSettings',
       context: currentButtonContext,
-      payload: { settings: buttons[currentButtonContext].settings },
+      payload: { settings: buttons.get(currentButtonContext).settings },
     })
   )
 
@@ -103,8 +101,14 @@ server.on('connection', (ws) => {
     const data = JSON.parse(json)
 
     if (data.event === 'setSettings') {
-      buttons[currentButtonContext].destroy()
-      buttons[currentButtonContext] = new Button(data.payload)
+      const button = buttons.get(currentButtonContext)
+
+      button.destroy()
+      const newButton = new Button(data.payload)
+      button.on('imageChanged', (image) => {
+        drawImage(image, data.context)
+      })
+      buttons.set(currentButtonContext, newButton)
     }
   })
 })
