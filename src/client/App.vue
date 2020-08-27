@@ -28,9 +28,10 @@
             select(v-model="layer.outputLogic")
               option(value="AND") AND
               option(value="OR") OR
+
             div.output(v-for="output in layer.outputs")
               label Global ID
-              input(v-model="output.globalId")
+              Output(:globalId="output.globalId")
               label Condition
               select(v-model="output.condition")
                 option(value="eq") is equal to
@@ -63,33 +64,24 @@
 </template>
 
 <script>
-import merge from 'lodash.merge'
-import {settings} from '../defaults'
+  import Output from '@components/Output.vue'
 
-export default {
+  export default {
+    components: { Output },
+
     data: () => ({
       context: '',
-      settings,
+      settings: undefined,
       selectedLayer: undefined,
     }),
 
     mounted() {
-      this.websocket = new WebSocket('ws://localhost:12345')
-
-      this.websocket.addEventListener('message', ({ data }) => {
-        const message = JSON.parse(data)
-
-        if (message.event === 'didReceiveSettings') {
-          this.context = message.context
-
-          message.payload.settings.inputs = message.payload.settings.inputs || {
-            press: { globalId: undefined, command: undefined },
-            release: { globalId: undefined, command: undefined },
-          }
-
-          this.settings = merge(this.settings, message.payload.settings)
-        }
+      this.$plugin.on('didReceiveSettings', ({ context, payload }) => {
+        this.context = context
+        this.settings = payload.settings
       })
+
+      this.$plugin.getOutputsForModule('Ka-50')
     },
 
     methods: {

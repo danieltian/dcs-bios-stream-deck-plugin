@@ -18,9 +18,7 @@ module.exports = {
       client.setBroadcast(true)
       client.addMembership('239.255.50.10')
 
-      const message = chalk.green('UDP client listening on')
-      const addressInfo = chalk.yellowBright(address.address + ':' + address.port)
-      console.log(message, addressInfo)
+      console.log(chalk`{green UDP client listening on} {yellowBright ${address.address}:${address.port}}`)
     })
 
     client.bind(5010)

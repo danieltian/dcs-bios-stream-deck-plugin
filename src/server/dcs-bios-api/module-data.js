@@ -18,37 +18,44 @@ filePaths.forEach((filePath) => {
   const data = require(filePath)
   const controls = Object.values(data).flatMap((x) => Object.values(x)) // Map the nested controls into a flat array.
 
-  modules.set(moduleName, { outputs: [], inputs: [] })
+  modules.set(moduleName, { inputs: [], outputs: [] })
 
   // Process each control's inputs and outputs.
   controls.forEach((control) => {
-    // TODO: Is this needed?
+    // If the control has inputs or outputs, add them to the module's inputs and outputs arrays.
     if (control.inputs.length) {
       modules.get(moduleName).inputs.push(control)
+    }
+    if (control.outputs.length) {
+      modules.get(moduleName).outputs.push(control)
     }
 
     control.outputs.forEach((output) => {
       // Add the module name to the output. We need this because some modules share the same address, so we need a way
       // to differentiate which module an update is for.
       output.module = moduleName
-      output.control = control // TODO: Is this needed?
-
-      modules.get(moduleName).outputs.push(output) // Add the output to the module.
+      output.physical_variant = control.physical_variant
+      output.name = control.description
+      output.id = control.identifier
+      //output.description = control.description
 
       // Add the output to the address lookup. There can be multiple outputs per address.
       const address = output.address
 
+      // Create the array for the address lookup if it doesn't exist.
       if (!addressLookup.has(address)) {
         addressLookup.set(address, [])
       }
 
       addressLookup.get(address).push(output)
 
-      const globalId = `${moduleName}/${control.identifier}${output.suffix}`
+      const globalId = `${moduleName}/${output.id}${output.suffix}`
       output.globalId = globalId
 
       if (outputLookup.has(globalId)) {
-        console.log(chalk.redBright(`output with ID ${globalId} already exists:`, output))
+        console.log(
+          chalk`{red [WARNING]} {yellowBright output with global ID {cyan ${globalId}} already exists, existing one will be used}`
+        )
       } else {
         outputLookup.set(globalId, output)
       }

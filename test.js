@@ -2,7 +2,7 @@ const WebSocket = require('ws')
 const events = require('events')
 const dcsBiosApi = require('./src/server/dcs-bios-api')
 const Button = require('./src/server/Button')
-const { outputLookup } = require('./src/server/dcs-bios-api/module-data')
+const { modules, outputLookup } = require('./src/server/dcs-bios-api/module-data')
 
 const eventEmitter = new events.EventEmitter()
 const socket = new WebSocket('ws://localhost:5555')
@@ -27,6 +27,8 @@ eventEmitter.on('register', (data) => {
 eventEmitter.on('willAppear', (data) => {
   const button = new Button(data.payload.settings)
   button.on('imageChanged', (image) => drawImage(image, data.context))
+  console.log('willAppear', data.context)
+  button.getImagePromise().then((image) => drawImage(image, data.context))
   buttons.set(data.context, button)
 })
 
@@ -64,14 +66,14 @@ function drawImage(image, context) {
 
 eventEmitter.on('keyDown', ({ context }) => {
   const config = buttons.get(context).settings.inputs.press
-  const id = outputLookup.get(config.globalId).control.identifier
+  const id = outputLookup.get(config.globalId).id
   const action = `${id} ${config.command}`
   dcsBiosApi.sendMessage(action)
 })
 
 eventEmitter.on('keyUp', ({ context }) => {
   const config = buttons.get(context).settings.inputs.release
-  const id = outputLookup.get(config.globalId).control.identifier
+  const id = outputLookup.get(config.globalId).id
   const action = `${id} ${config.command}`
   dcsBiosApi.sendMessage(action)
 })
@@ -122,6 +124,22 @@ server.on('connection', (ws) => {
       buttons.delete(button)
 
       socket.send('getSettings', currentButtonContext)
+    } else if (data.event === 'sendToPlugin' && data.payload.action === 'getOutput') {
+      const output = outputLookup.get(data.payload.globalId)
+      ws.send(
+        JSON.stringify({
+          event: 'sendToPropertyInspector',
+          payload: { responseFor: data.payload.requestId, output },
+        })
+      )
+    } else if (data.event === 'sendToPlugin' && data.payload.action === 'getOutputs') {
+      const module = modules.get(data.payload.module)
+      ws.send(
+        JSON.stringify({
+          event: 'sendToPropertyInspector',
+          payload: { responseFor: data.payload.requestId, outputs: module.outputs },
+        })
+      )
     }
   })
 })

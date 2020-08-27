@@ -23,7 +23,7 @@ class Layer extends EventEmitter {
     // Load the image as a Konva node that's initially hidden. Needs to be a promise because it's asynchronous.
     this.nodePromise = new Promise((resolve) => {
       Konva.Image.fromURL(settings.image, (imageNode) => {
-        imageNode.setAttrs({ ...settings.source, visible: false })
+        imageNode.setAttrs(settings.source)
         resolve(imageNode)
       })
     })

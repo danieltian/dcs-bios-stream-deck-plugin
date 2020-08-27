@@ -1,12 +1,21 @@
 const EventEmitter = require('events')
 const Konva = require('konva-node')
 const debounce = require('lodash.debounce')
+const merge = require('lodash.merge')
 const Layer = require('./Layer')
+
+const defaultSettings = {
+  layers: [],
+  inputs: {
+    press: { globalId: undefined, command: undefined },
+    release: { globalId: undefined, command: undefined },
+  },
+}
 
 class Button extends EventEmitter {
   constructor(settings) {
     super()
-    this.settings = settings
+    this.settings = merge({}, defaultSettings, settings)
     this.drawFn = debounce(this.emitDraw.bind(this))
 
     // Create the Konva objects we need to draw the layer images.
@@ -28,6 +37,12 @@ class Button extends EventEmitter {
 
   emitDraw() {
     this.emit('imageChanged', this.stage.toDataURL())
+  }
+
+  getImagePromise() {
+    return Promise.all(this.layers.map((x) => x.nodePromise)).then(() => {
+      return this.stage.toDataURL()
+    })
   }
 
   destroy() {
