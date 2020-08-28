@@ -1,6 +1,8 @@
 const glob = require('glob')
 const path = require('path')
 const chalk = require('chalk')
+const Output = require('./Output')
+const Input = require('./Input')
 
 // Get all the .json files from %APPDATA%\DCS-BIOS\control-reference-json.
 const filePaths = glob.sync(path.join(process.env.APPDATA, 'DCS-BIOS', 'control-reference-json', '*.json'))
@@ -24,42 +26,29 @@ filePaths.forEach((filePath) => {
   controls.forEach((control) => {
     // If the control has inputs or outputs, add them to the module's inputs and outputs arrays.
     if (control.inputs.length) {
-      control.inputs.control = control
-      modules.get(moduleName).inputs.push(control.inputs)
+      const input = new Input(control, moduleName)
+      modules.get(moduleName).inputs.push(input)
     }
 
-    control.outputs.forEach((output) => {
-      modules.get(moduleName).outputs.push(output)
-      // Add the module name to the output. We need this because some modules share the same address, so we need a way
-      // to differentiate which module an update is for.
-      output.module = moduleName
-      output.control = control
-      //output.description = control.description
+    control.outputs.forEach((outputConfig) => {
+      const output = new Output(outputConfig, control, moduleName)
 
+      modules.get(moduleName).outputs.push(output)
       // Add the output to the address lookup. There can be multiple outputs per address.
       const address = output.address
-
       // Create the array for the address lookup if it doesn't exist.
-      if (!addressLookup.has(address)) {
-        addressLookup.set(address, [])
-      }
-
+      addressLookup.set(address, addressLookup.get(address) || [])
+      // Add this control to the address lookup.
       addressLookup.get(address).push(output)
 
-      const globalId = `${moduleName}/${output.control.identifier}${output.suffix}`
-      output.globalId = globalId
-
-      if (outputLookup.has(globalId)) {
+      if (outputLookup.has(output.globalId)) {
         console.log(
-          chalk`{red [WARNING]} {yellowBright output with global ID {cyan ${globalId}} already exists, existing one will be used}`
+          chalk`{red [WARNING]} {yellowBright output with global ID {cyan ${output.globalId}} already exists, existing one will be used}`
         )
       } else {
-        outputLookup.set(globalId, output)
+        outputLookup.set(output.globalId, output)
       }
     })
-
-    delete control.inputs
-    delete control.outputs
   })
 })
 

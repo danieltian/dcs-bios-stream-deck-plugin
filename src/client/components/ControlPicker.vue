@@ -4,7 +4,7 @@
       option(v-for="module in modules") {{ module }}
 
     ul.controls
-      li.control(v-for="control in controls" @click="selectControl(control)") {{ control.control.category }} - {{ control.control.description }}
+      li.control(v-for="control in controls" @click="selectControl(control)") {{ control.category }} - {{ control.control_description }}
 </template>
 
 <script>

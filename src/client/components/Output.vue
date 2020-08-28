@@ -1,7 +1,7 @@
 <template lang="pug">
   .output(v-if="output")
     label Global ID
-    button(@click="changeOutput") {{ output.module }} - {{ output.control.identifier }}
+    button(@click="changeOutput") {{ output.module }} - {{ output.control_description }}
     label Condition
     select(v-model="config.condition")
       option(value="eq") is equal to
