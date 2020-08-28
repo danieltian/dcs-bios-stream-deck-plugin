@@ -24,19 +24,16 @@ filePaths.forEach((filePath) => {
   controls.forEach((control) => {
     // If the control has inputs or outputs, add them to the module's inputs and outputs arrays.
     if (control.inputs.length) {
-      modules.get(moduleName).inputs.push(control)
-    }
-    if (control.outputs.length) {
-      modules.get(moduleName).outputs.push(control)
+      control.inputs.control = control
+      modules.get(moduleName).inputs.push(control.inputs)
     }
 
     control.outputs.forEach((output) => {
+      modules.get(moduleName).outputs.push(output)
       // Add the module name to the output. We need this because some modules share the same address, so we need a way
       // to differentiate which module an update is for.
       output.module = moduleName
-      output.physical_variant = control.physical_variant
-      output.name = control.description
-      output.id = control.identifier
+      output.control = control
       //output.description = control.description
 
       // Add the output to the address lookup. There can be multiple outputs per address.
@@ -49,7 +46,7 @@ filePaths.forEach((filePath) => {
 
       addressLookup.get(address).push(output)
 
-      const globalId = `${moduleName}/${output.id}${output.suffix}`
+      const globalId = `${moduleName}/${output.control.identifier}${output.suffix}`
       output.globalId = globalId
 
       if (outputLookup.has(globalId)) {
@@ -60,6 +57,9 @@ filePaths.forEach((filePath) => {
         outputLookup.set(globalId, output)
       }
     })
+
+    delete control.inputs
+    delete control.outputs
   })
 })
 

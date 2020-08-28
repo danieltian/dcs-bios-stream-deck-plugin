@@ -23,32 +23,32 @@ class Plugin extends EventEmitter {
   }
 
   getOutputsForModule(module) {
-    return new Promise((resolve) => {
-      this.sendToPlugin('getOutputs', { module }, (payload) => {
-        resolve(payload.outputs)
-      })
-    })
+    return this.sendToPlugin('getOutputs', { module })
   }
 
   getOutput(globalId) {
-    return new Promise((resolve) => {
-      this.sendToPlugin('getOutput', { globalId }, (payload) => {
-        resolve(payload.output)
-      })
-    })
+    return this.sendToPlugin('getOutput', { globalId })
   }
 
-  async sendToPlugin(action, payload, callback) {
-    const requestId = short.generate()
+  getModules() {
+    return this.sendToPlugin('getModules')
+  }
 
-    const message = {
-      event: 'sendToPlugin',
-      payload: { action, requestId, ...payload },
-    }
+  sendToPlugin(action, payload) {
+    return new Promise((resolve) => {
+      const requestId = short.generate()
 
-    this.once(requestId, callback)
-    await connected
-    websocket.send(JSON.stringify(message))
+      const message = {
+        event: 'sendToPlugin',
+        payload: { action, requestId, ...payload },
+      }
+
+      this.once(requestId, (payload) => resolve(payload.data))
+
+      connected.then(() => {
+        websocket.send(JSON.stringify(message))
+      })
+    })
   }
 }
 

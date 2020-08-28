@@ -124,22 +124,32 @@ server.on('connection', (ws) => {
       buttons.delete(button)
 
       socket.send('getSettings', currentButtonContext)
-    } else if (data.event === 'sendToPlugin' && data.payload.action === 'getOutput') {
-      const output = outputLookup.get(data.payload.globalId)
-      ws.send(
-        JSON.stringify({
-          event: 'sendToPropertyInspector',
-          payload: { responseFor: data.payload.requestId, output },
-        })
-      )
-    } else if (data.event === 'sendToPlugin' && data.payload.action === 'getOutputs') {
-      const module = modules.get(data.payload.module)
-      ws.send(
-        JSON.stringify({
-          event: 'sendToPropertyInspector',
-          payload: { responseFor: data.payload.requestId, outputs: module.outputs },
-        })
-      )
+    } else if (data.event === 'sendToPlugin') {
+      if (data.payload.action === 'getOutput') {
+        const output = outputLookup.get(data.payload.globalId)
+        ws.send(
+          JSON.stringify({
+            event: 'sendToPropertyInspector',
+            payload: { responseFor: data.payload.requestId, data: output },
+          })
+        )
+      } else if (data.payload.action === 'getOutputs') {
+        const module = modules.get(data.payload.module)
+        ws.send(
+          JSON.stringify({
+            event: 'sendToPropertyInspector',
+            payload: { responseFor: data.payload.requestId, data: module.outputs },
+          })
+        )
+      } else if (data.payload.action === 'getModules') {
+        const moduleNames = [...modules.keys()]
+        ws.send(
+          JSON.stringify({
+            event: 'sendToPropertyInspector',
+            payload: { responseFor: data.payload.requestId, data: moduleNames },
+          })
+        )
+      }
     }
   })
 })

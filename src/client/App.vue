@@ -1,5 +1,6 @@
 <template lang="pug">
   #app
+    ControlPicker
     input(type="file" ref="imageAddInput" @change="addImageLayer")
     input(type="file" ref="imageEditInput" @change="changeLayerImage")
 
@@ -29,22 +30,7 @@
               option(value="AND") AND
               option(value="OR") OR
 
-            div.output(v-for="output in layer.outputs")
-              label Global ID
-              Output(:globalId="output.globalId")
-              label Condition
-              select(v-model="output.condition")
-                option(value="eq") is equal to
-                option(value="gt") is greater than
-                option(value="lt") is less than
-                option(value="gte") is greater than or equal to
-                option(value="lte") is less than or equal to
-                option(value="neq") is not equal to
-                option(value="contains") contains
-                option(value="notcontains") does not contain
-              label Value
-              input(v-model="output.value")
-              span.mdi(class="mdi-trash-can-outline" @click="deleteOutput(output, layer)")
+            Output(v-for="(output, index) in layer.outputs" :key="index" :config="output" @delete="deleteOutput(output, layer)")
             button(@click="addOutput(layer.outputs)") Add Output
 
       div.inputs
@@ -65,9 +51,10 @@
 
 <script>
   import Output from '@components/Output.vue'
+  import ControlPicker from '@components/ControlPicker.vue'
 
   export default {
-    components: { Output },
+    components: { Output, ControlPicker },
 
     data: () => ({
       context: '',
