@@ -50,6 +50,15 @@ class Plugin extends EventEmitter {
       })
     })
   }
+
+  saveSettings(settings, context) {
+    const data = {
+      event: 'setSettings',
+      context,
+      payload: settings,
+    }
+    websocket.send(JSON.stringify(data))
+  }
 }
 
 export default new Plugin()

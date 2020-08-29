@@ -1,5 +1,5 @@
 <template lang="pug">
-  .output(v-if="output")
+  .condition(v-if="output")
     label Global ID
     button(@click="changeOutput") {{ output.module }} - {{ output.control_description }}
     label Condition
@@ -38,8 +38,9 @@
 
     methods: {
       changeOutput() {
-        this.$eventBus.$emit('showOutputPicker', this.output)
-        this.$eventBus.$once('controlSelected', (globalId) => (this.config.globalId = globalId))
+        this.$controlPicker.changeControl(this.output, (control) => {
+          this.config.globalId = control.globalId
+        })
       },
     },
   }

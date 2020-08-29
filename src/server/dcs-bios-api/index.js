@@ -2,7 +2,7 @@ const { addressLookup } = require('./module-data')
 const udpClient = require('./udp-multicast-client')
 const chalk = require('chalk')
 const BufferReader = require('./BufferReader')
-const EventEmitter = require('events')
+const EventEmitter = require('eventemitter3')
 
 /*
 Global modules are modules that get updated regardless of which aircraft is currently in use. Because multiple aircraft

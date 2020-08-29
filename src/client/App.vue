@@ -16,6 +16,11 @@
           div(style="margin-bottom: 20px")
             span.mdi(class="mdi-trash-can-outline" @click="deleteLayer(layer)")
             input(v-model="layer.name")
+
+            v-stage(:config="{ width: 72, height: 72 }")
+              v-layer
+                KonvaImage(:imageSrc="layer.image")
+
             img(:src="layer.image" width="72" height="72" @click="openImageEditDialog(layer)")
             label X
             input(v-model="layer.source.x")
@@ -25,36 +30,37 @@
             input(v-model="layer.source.width")
             label Height
             input(v-model="layer.source.height")
-            label Output Logic
-            select(v-model="layer.outputLogic")
+            label Condition Logic
+            select(v-model="layer.conditionLogic")
               option(value="AND") AND
               option(value="OR") OR
 
-            Output(v-for="(output, index) in layer.outputs" :key="index" :config="output" @delete="deleteOutput(output, layer)")
-            button(@click="addOutput(layer.outputs)") Add Output
+            Condition(v-for="(condition, index) in layer.conditions" :key="index" :config="condition" @delete="deleteCondition(condition, layer)")
+            button(@click="addCondition(layer.conditions)") Add Condition
 
       div.inputs
         h3 Press
         label Global ID
-        input(v-model="settings.inputs.press.globalId")
+        input(v-model="settings.inputs.press.globalId" v-if="settings.inputs.press")
         label Command
-        input(v-model="settings.inputs.press.command")
+        input(v-model="settings.inputs.press.command" v-if="settings.inputs.press")
 
         h3 Release
         label Global ID
-        input(v-model="settings.inputs.release.globalId")
+        input(v-model="settings.inputs.release.globalId" v-if="settings.inputs.release")
         label Command
-        input(v-model="settings.inputs.release.command")
+        input(v-model="settings.inputs.release.command" v-if="settings.inputs.release")
 
       button(@click="saveSettings") Save
 </template>
 
 <script>
-  import Output from '@components/Output.vue'
+  import Condition from '@components/Condition.vue'
   import ControlPicker from '@components/ControlPicker.vue'
+  import KonvaImage from '@components/KonvaImage.vue'
 
   export default {
-    components: { Output, ControlPicker },
+    components: { Condition, ControlPicker, KonvaImage },
 
     data: () => ({
       context: '',
@@ -67,19 +73,11 @@
         this.context = context
         this.settings = payload.settings
       })
-
-      this.$plugin.getOutputsForModule('Ka-50')
     },
 
     methods: {
       saveSettings() {
-        this.websocket.send(
-          JSON.stringify({
-            event: 'setSettings',
-            context: this.context,
-            payload: this.settings,
-          })
-        )
+        this.$plugin.saveSettings(this.settings, this.context)
       },
 
       openImageAddDialog() {
@@ -93,14 +91,15 @@
 
       async addImageLayer(e) {
         const file = e.target.files[0]
+        console.log('file', file)
         const image = await this.getImageData(file)
 
         this.settings.layers.push({
           name: file.name,
           image,
           source: { x: 0, y: 0, width: 72, height: 72 },
-          outputLogic: 'AND',
-          outputs: [],
+          conditionLogic: 'AND',
+          conditions: [],
         })
       },
 
@@ -121,12 +120,14 @@
         })
       },
 
-      addOutput(outputs) {
-        outputs.push({ globalId: undefined, condition: 'eq', value: undefined })
+      addCondition(conditions) {
+        this.$controlPicker.changeControl(undefined, (control) => {
+          conditions.push({ globalId: control.globalId, condition: 'eq', value: '0' })
+        })
       },
 
-      deleteOutput(output, layer) {
-        layer.outputs = layer.outputs.filter((x) => x !== output)
+      deleteCondition(condition, layer) {
+        layer.conditions = layer.conditions.filter((x) => x !== condition)
       },
 
       deleteLayer(layer) {

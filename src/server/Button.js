@@ -1,4 +1,4 @@
-const EventEmitter = require('events')
+const EventEmitter = require('eventemitter3')
 const Konva = require('konva-node')
 const debounce = require('lodash.debounce')
 const merge = require('lodash.merge')
@@ -7,8 +7,8 @@ const Layer = require('./Layer')
 const defaultSettings = {
   layers: [],
   inputs: {
-    press: { globalId: undefined, command: undefined },
-    release: { globalId: undefined, command: undefined },
+    press: undefined,
+    release: undefined,
   },
 }
 

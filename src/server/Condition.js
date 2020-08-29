@@ -1,11 +1,11 @@
-const EventEmitter = require('events')
+const EventEmitter = require('eventemitter3')
 const debounce = require('lodash.debounce')
 const dcsBiosApi = require('./dcs-bios-api')
 
 /**
- * An Output class that watches for updates to the output in DCS BIOS and invokes a callback if the value changes.
+ * A Condition class that watches for updates to the output in DCS BIOS and invokes a callback if the value changes.
  */
-class Output extends EventEmitter {
+class Condition extends EventEmitter {
   constructor(settings) {
     super()
     this.globalId = settings.globalId
@@ -13,7 +13,7 @@ class Output extends EventEmitter {
     this.value = settings.value
     // An output is active if the output's value matches the condition, i.e. 'gt 5' is true if the value from
     // DCS BIOS is 7.
-    this.isActive = false
+    this.isActive = undefined
     // We need a reference to the update function so that we can remove it with .off() when this object is destroyed. We
     // also need to re-bind it or else `this` will be dcsBiosApi instead of this object.
     this.updateFn = debounce(this.updateActiveStatus.bind(this))
@@ -62,4 +62,4 @@ class Output extends EventEmitter {
   }
 }
 
-module.exports = Output
+module.exports = Condition

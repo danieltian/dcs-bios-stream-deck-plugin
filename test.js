@@ -1,8 +1,8 @@
 const WebSocket = require('ws')
-const events = require('events')
+const events = require('eventemitter3')
 const dcsBiosApi = require('./src/server/dcs-bios-api')
 const Button = require('./src/server/Button')
-const { modules, outputLookup } = require('./src/server/dcs-bios-api/module-data')
+const { modules, outputLookup, inputLookup } = require('./src/server/dcs-bios-api/module-data')
 
 const eventEmitter = new events.EventEmitter()
 const socket = new WebSocket('ws://localhost:5555')
@@ -66,14 +66,20 @@ function drawImage(image, context) {
 
 eventEmitter.on('keyDown', ({ context }) => {
   const config = buttons.get(context).settings.inputs.press
-  const id = outputLookup.get(config.globalId).id
+
+  if (!config.globalId) return // TODO: Press and release should be undefined, not an empty object.
+
+  const id = inputLookup.get(config.globalId).id
   const action = `${id} ${config.command}`
   dcsBiosApi.sendMessage(action)
 })
 
 eventEmitter.on('keyUp', ({ context }) => {
   const config = buttons.get(context).settings.inputs.release
-  const id = outputLookup.get(config.globalId).id
+
+  if (!config.globalId) return
+
+  const id = inputLookup.get(config.globalId).id
   const action = `${id} ${config.command}`
   dcsBiosApi.sendMessage(action)
 })
@@ -84,14 +90,6 @@ dcsBiosApi.start()
 // Server for frontend
 // ---------------------------------------------------------------------------------------------------------------------
 
-// const server = require('http').createServer()
-//
-// const io = require('socket.io')(server, { serveClient: false })
-//
-// io.on('connection', (socket) => {})
-//
-// server.listen(3000)
-
 const server = new WebSocket.Server({ port: 12345 }) // Create the server that proxies the Stream Deck WebSocket.
 
 server.on('connection', (ws) => {
@@ -99,7 +97,7 @@ server.on('connection', (ws) => {
     JSON.stringify({
       event: 'didReceiveSettings',
       context: currentButtonContext,
-      payload: { settings: buttons.get(currentButtonContext).settings },
+      payload: { settings: buttons.has(currentButtonContext) ? buttons.get(currentButtonContext).settings : undefined },
     })
   )
 
@@ -122,8 +120,6 @@ server.on('connection', (ws) => {
       const button = buttons.get(currentButtonContext)
       button.destroy()
       buttons.delete(button)
-
-      socket.send('getSettings', currentButtonContext)
     } else if (data.event === 'sendToPlugin') {
       if (data.payload.action === 'getOutput') {
         const output = outputLookup.get(data.payload.globalId)

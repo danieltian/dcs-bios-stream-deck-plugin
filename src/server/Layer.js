@@ -1,6 +1,6 @@
-const EventEmitter = require('events')
+const EventEmitter = require('eventemitter3')
 const debounce = require('lodash.debounce')
-const Output = require('./Output')
+const Condition = require('./Condition')
 const Konva = require('konva-node')
 
 function isTrue(x) {
@@ -8,15 +8,15 @@ function isTrue(x) {
 }
 
 /**
- * A Layer class that watches its outputs for changes and emits an event if any/all of the outputs are active. An active
- * output is one that matches the output condition that it's configured with.
+ * A Layer class that watches its conditions for changes and emits an event if any/all of the conditions are active. An
+ * active condition is one that matches the configuration of the condition.
  */
 class Layer extends EventEmitter {
   constructor(settings) {
     super()
-    this.outputLogic = settings.outputLogic
+    this.conditionLogic = settings.conditionLogic
 
-    this.isVisible = false
+    this.isVisible = undefined
     // We need a reference to the update function so that we can remove it with .off() when this object is destroyed. We
     // also need to re-bind it or else `this` will be dcsBiosApi instead of this object.
     this.updateFn = debounce(this.updateVisibility.bind(this))
@@ -28,18 +28,18 @@ class Layer extends EventEmitter {
       })
     })
 
-    // Create output objects for every output setting from the JSON.
-    this.outputs = settings.outputs.map((outputSettings) => {
-      const output = new Output(outputSettings)
-      output.on('isActiveChanged', this.updateFn)
+    // Create condition objects for every output setting from the JSON.
+    this.conditions = settings.conditions.map((config) => {
+      const condition = new Condition(config)
+      condition.on('isActiveChanged', this.updateFn)
 
-      return output
+      return condition
     })
   }
 
   async updateVisibility() {
-    const isActiveStates = this.outputs.map((x) => x.isActive)
-    let newVisible = this.outputLogic === 'AND' ? isActiveStates.every(isTrue) : isActiveStates.some(isTrue)
+    const isActiveStates = this.conditions.map((x) => x.isActive)
+    let newVisible = this.conditionLogic === 'AND' ? isActiveStates.every(isTrue) : isActiveStates.some(isTrue)
 
     if (this.isVisible !== newVisible) {
       this.isVisible = newVisible
@@ -51,9 +51,9 @@ class Layer extends EventEmitter {
   }
 
   destroy() {
-    this.outputs.forEach((output) => {
-      output.off('isActiveChanged', this.updateFn)
-      output.destroy()
+    this.conditions.forEach((condition) => {
+      condition.off('isActiveChanged', this.updateFn)
+      condition.destroy()
     })
   }
 }

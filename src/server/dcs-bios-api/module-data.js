@@ -9,17 +9,19 @@ const filePaths = glob.sync(path.join(process.env.APPDATA, 'DCS-BIOS', 'control-
 
 const modules = new Map() // Used by the frontend to get a list of controls for a module.
 const addressLookup = new Map() // Used by DCS BIOS API to update the outputs at a particular address.
-const outputLookup = new Map() // Used by the frontend and the server to get the output from the ID saved in the JSON.
+const inputLookup = new Map() // Use by the frontend and the server to get the input from the global ID.
+const outputLookup = new Map() // Used by the frontend and the server to get the output from the global ID.
 
 filePaths.forEach((filePath) => {
-  // Skip MetadataEnd, it contains counters that endlessly update, but this creates a lot of noise when debugging
-  // updates, and nobody will actually use it.
+  // Skip MetadataEnd, it contains counters that endlessly update, but this creates a lot of noise when debugging.
   if (filePath.endsWith('MetadataEnd.json')) return
 
   const moduleName = path.basename(filePath, '.json') // Get the module name from the file name.
   const data = require(filePath)
   const controls = Object.values(data).flatMap((x) => Object.values(x)) // Map the nested controls into a flat array.
 
+  // Create a list of inputs and outputs for each module. This is used by the frontend to get a list of available
+  // controls for a module.
   modules.set(moduleName, { inputs: [], outputs: [] })
 
   // Process each control's inputs and outputs.
@@ -28,6 +30,14 @@ filePaths.forEach((filePath) => {
     if (control.inputs.length) {
       const input = new Input(control, moduleName)
       modules.get(moduleName).inputs.push(input)
+
+      if (inputLookup.has(input.globalId)) {
+        console.log(
+          chalk`{red [WARNING]} {yellowBright input with global ID {cyan ${input.globalId}} already exists, existing one will be used}`
+        )
+      } else {
+        inputLookup.set(input.globalId, input)
+      }
     }
 
     control.outputs.forEach((outputConfig) => {
@@ -35,7 +45,7 @@ filePaths.forEach((filePath) => {
 
       modules.get(moduleName).outputs.push(output)
       // Add the output to the address lookup. There can be multiple outputs per address.
-      const address = output.address
+      const address = outputConfig.address
       // Create the array for the address lookup if it doesn't exist.
       addressLookup.set(address, addressLookup.get(address) || [])
       // Add this control to the address lookup.
@@ -52,4 +62,4 @@ filePaths.forEach((filePath) => {
   })
 })
 
-module.exports = { modules, addressLookup, outputLookup }
+module.exports = { modules, addressLookup, inputLookup, outputLookup }

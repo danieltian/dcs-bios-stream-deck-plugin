@@ -10,8 +10,8 @@
         "width": 72,
         "height": 72
       },
-      "outputLogic": "AND",
-      "outputs": [
+      "conditionLogic": "AND",
+      "conditions": [
         {
           "globalId": "Ka-50/Autopilot Panel/AP_ALT_HOLD_LED",
           "condition": "eq",
@@ -29,8 +29,8 @@
         "width": 72,
         "height": 72
       },
-      "outputLogic": "AND",
-      "outputs": [
+      "conditionLogic": "AND",
+      "conditions": [
         {
           "globalId": "Ka-50/Autopilot Panel/AP_ALT_HOLD_LED",
           "condition": "eq",
