@@ -26,8 +26,16 @@ class Plugin extends EventEmitter {
     return this.sendToPlugin('getOutputs', { module })
   }
 
+  getInputsForModule(module) {
+    return this.sendToPlugin('getInputs', { module })
+  }
+
   getOutput(globalId) {
     return this.sendToPlugin('getOutput', { globalId })
+  }
+
+  getInput(globalId) {
+    return this.sendToPlugin('getInput', { globalId })
   }
 
   getModules() {

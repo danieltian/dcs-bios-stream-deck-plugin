@@ -7,8 +7,8 @@ const Layer = require('./Layer')
 const defaultSettings = {
   layers: [],
   inputs: {
-    press: undefined,
-    release: undefined,
+    press: [],
+    release: [],
   },
 }
 
@@ -36,13 +36,13 @@ class Button extends EventEmitter {
   }
 
   emitDraw() {
+    const mark = performance.mark()
     this.emit('imageChanged', this.stage.toDataURL())
+    console.log(performance.measure(mark))
   }
 
-  getImagePromise() {
-    return Promise.all(this.layers.map((x) => x.nodePromise)).then(() => {
-      return this.stage.toDataURL()
-    })
+  buttonReady() {
+    return Promise.all(this.layers.map((x) => x.nodePromise)).then(() => this.stage.toDataURL())
   }
 
   destroy() {

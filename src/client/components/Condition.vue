@@ -38,7 +38,7 @@
 
     methods: {
       changeOutput() {
-        this.$controlPicker.changeControl(this.output, (control) => {
+        this.$controlPickerEventBus.changeOutput(this.output, (control) => {
           this.config.globalId = control.globalId
         })
       },

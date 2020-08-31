@@ -4,45 +4,73 @@
       select(v-model="selectedModule")
         option(v-for="module in modules") {{ module }}
 
+      input(type="text" v-model="filter")
+      button(@click="close") Cancel
+
       ul.controls
-        li.control(v-for="control in controls" @click="selectControl(control)") {{ control.category }} - {{ control.control_description }}
+        Control(v-for="control in filteredControls" :key="control.globalId" :control="control" @click="selectControl")
 </template>
 
 <script>
+  import Control from './Control.vue'
+
   export default {
+    components: { Control },
+
     data: () => ({
       isVisible: false,
-      selected: undefined,
       modules: [],
       selectedModule: undefined,
       controls: [],
+      selectedControl: undefined,
+      filter: '',
+      type: ''
     }),
+
+    computed: {
+      filteredControls() {
+        // Filter the controls by the category and description, removing all spaces.
+        return this.controls.filter((control) => {
+          const category = control.category.replace(/_ /g, '').toLocaleLowerCase()
+          const description = control.description.replace(/_ /g, '').toLocaleLowerCase()
+
+          return category.includes(this.filter) || description.includes(this.filter)
+        })
+      },
+    },
 
     watch: {
       async selectedModule() {
-        this.controls = await this.$plugin.getOutputsForModule(this.selectedModule)
+        if (this.type === 'output') {
+          this.controls = await this.$plugin.getOutputsForModule(this.selectedModule)
+        }
+        else {
+          this.controls = await this.$plugin.getInputsForModule(this.selectedModule)
+        }
       },
     },
 
     async created() {
       this.modules = await this.$plugin.getModules()
 
-      this.$controlPicker.on('show', (selected) => {
-        this.selected = selected
+      this.$controlPickerEventBus.on('show', (control, type) => {
+        this.selectedControl = control
         this.isVisible = true
+        this.type = type
 
-        if (this.selected) {
-          this.selectedModule = selected.module
-        } else if (!this.selected)
-        this.selectedModule = selected ? selected.module : (this.selectedModule || this.modules[0])
+        this.selectedModule = control ? control.module : this.modules[0]
       })
     },
 
     methods: {
       selectControl(control) {
-        this.$controlPicker.emit('selected', control)
+        this.$controlPickerEventBus.emit('selected', control)
         this.isVisible = false
       },
+
+      close() {
+        this.isVisible = false
+      }
     },
   }
 </script>

@@ -40,27 +40,24 @@
 
       div.inputs
         h3 Press
-        label Global ID
-        input(v-model="settings.inputs.press.globalId" v-if="settings.inputs.press")
-        label Command
-        input(v-model="settings.inputs.press.command" v-if="settings.inputs.press")
+        Input(v-for="input in settings.inputs.press" :config="input" @delete="deleteInput(input, 'press')")
+        button(@click="addInput(settings.inputs.press)") Add Press
 
         h3 Release
         label Global ID
-        input(v-model="settings.inputs.release.globalId" v-if="settings.inputs.release")
-        label Command
-        input(v-model="settings.inputs.release.command" v-if="settings.inputs.release")
+
 
       button(@click="saveSettings") Save
 </template>
 
 <script>
   import Condition from '@components/Condition.vue'
+  import Input from '@components/Input.vue'
   import ControlPicker from '@components/ControlPicker.vue'
   import KonvaImage from '@components/KonvaImage.vue'
 
   export default {
-    components: { Condition, ControlPicker, KonvaImage },
+    components: { Condition, Input, ControlPicker, KonvaImage },
 
     data: () => ({
       context: '',
@@ -121,7 +118,7 @@
       },
 
       addCondition(conditions) {
-        this.$controlPicker.changeControl(undefined, (control) => {
+        this.$controlPickerEventBus.changeOutput(undefined, (control) => {
           conditions.push({ globalId: control.globalId, condition: 'eq', value: '0' })
         })
       },
@@ -133,6 +130,16 @@
       deleteLayer(layer) {
         this.settings.layers = this.settings.layers.filter((x) => x !== layer)
       },
+
+      addInput(configType) {
+        this.$controlPickerEventBus.changeInput(undefined, (control) => {
+          configType.push({ globalId: control.globalId, command: '' })
+        })
+      },
+
+      deleteInput(input, category) {
+        this.settings.inputs[category] = this.settings.inputs[category].filter(x => x !== input)
+      }
     },
   }
 </script>

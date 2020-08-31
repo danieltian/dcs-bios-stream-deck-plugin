@@ -1,5 +1,5 @@
 class Output {
-  constructor(output, control, module) {
+  constructor(module, control, output) {
     // Output properties.
     this.description = output.description
     this.mask = output.mask

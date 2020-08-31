@@ -28,7 +28,7 @@ eventEmitter.on('willAppear', (data) => {
   const button = new Button(data.payload.settings)
   button.on('imageChanged', (image) => drawImage(image, data.context))
   console.log('willAppear', data.context)
-  button.getImagePromise().then((image) => drawImage(image, data.context))
+  button.buttonReady().then((image) => drawImage(image, data.context))
   buttons.set(data.context, button)
 })
 
@@ -57,7 +57,7 @@ function sendCommand(event, context, payload) {
 }
 
 function drawImage(image, context) {
-  sendCommand('setImage', context, { image, target: 0 })
+  sendCommand('setImage', context, { image })
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ function drawImage(image, context) {
 eventEmitter.on('keyDown', ({ context }) => {
   const config = buttons.get(context).settings.inputs.press
 
-  if (!config.globalId) return // TODO: Press and release should be undefined, not an empty object.
+  if (!config.globalId) return
 
   const id = inputLookup.get(config.globalId).id
   const action = `${id} ${config.command}`
@@ -129,12 +129,28 @@ server.on('connection', (ws) => {
             payload: { responseFor: data.payload.requestId, data: output },
           })
         )
+      } else if (data.payload.action === 'getInput') {
+        const input = inputLookup.get(data.payload.globalId)
+        ws.send(
+          JSON.stringify({
+            event: 'sendToPropertyInspector',
+            payload: { responseFor: data.payload.requestId, data: input },
+          })
+        )
       } else if (data.payload.action === 'getOutputs') {
         const module = modules.get(data.payload.module)
         ws.send(
           JSON.stringify({
             event: 'sendToPropertyInspector',
             payload: { responseFor: data.payload.requestId, data: module.outputs },
+          })
+        )
+      } else if (data.payload.action === 'getInputs') {
+        const module = modules.get(data.payload.module)
+        ws.send(
+          JSON.stringify({
+            event: 'sendToPropertyInspector',
+            payload: { responseFor: data.payload.requestId, data: module.inputs },
           })
         )
       } else if (data.payload.action === 'getModules') {

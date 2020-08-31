@@ -3,6 +3,7 @@ const path = require('path')
 const chalk = require('chalk')
 const Output = require('./Output')
 const Input = require('./Input')
+const Control = require('./Control')
 
 // Get all the .json files from %APPDATA%\DCS-BIOS\control-reference-json.
 const filePaths = glob.sync(path.join(process.env.APPDATA, 'DCS-BIOS', 'control-reference-json', '*.json'))
@@ -28,8 +29,8 @@ filePaths.forEach((filePath) => {
   controls.forEach((control) => {
     // If the control has inputs or outputs, add them to the module's inputs and outputs arrays.
     if (control.inputs.length) {
-      const input = new Input(control, moduleName)
-      modules.get(moduleName).inputs.push(input)
+      const input = new Input(moduleName, control)
+      modules.get(moduleName).inputs.push(new Control(moduleName, control))
 
       if (inputLookup.has(input.globalId)) {
         console.log(
@@ -41,9 +42,9 @@ filePaths.forEach((filePath) => {
     }
 
     control.outputs.forEach((outputConfig) => {
-      const output = new Output(outputConfig, control, moduleName)
+      const output = new Output(moduleName, control, outputConfig)
 
-      modules.get(moduleName).outputs.push(output)
+      modules.get(moduleName).outputs.push(new Control(moduleName, control, output))
       // Add the output to the address lookup. There can be multiple outputs per address.
       const address = outputConfig.address
       // Create the array for the address lookup if it doesn't exist.
