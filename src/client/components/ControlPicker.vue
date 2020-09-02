@@ -24,7 +24,8 @@
       controls: [],
       selectedControl: undefined,
       filter: '',
-      type: ''
+      type: '',
+      value: undefined
     }),
 
     computed: {
@@ -53,7 +54,7 @@
     async created() {
       this.modules = await this.$plugin.getModules()
 
-      this.$controlPickerEventBus.on('show', (control, type) => {
+      this.$eventBus.on('show', (control, type) => {
         this.selectedControl = control
         this.isVisible = true
         this.type = type
@@ -64,12 +65,16 @@
 
     methods: {
       selectControl(control) {
-        this.$controlPickerEventBus.emit('selected', control)
+        this.$eventBus.emit('selected', control)
         this.isVisible = false
       },
 
       close() {
         this.isVisible = false
+      },
+
+      setValue(value) {
+        this.value = value
       }
     },
   }

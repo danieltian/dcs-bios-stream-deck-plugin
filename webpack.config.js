@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
   mode: 'development',
   entry: path.resolve('src', 'client', 'index.js'),
+  devtool: 'eval-source-map',
 
   devServer: {
     stats: 'errors-warnings',
@@ -35,14 +36,13 @@ module.exports = {
         use: [
           'vue-style-loader',
           'css-loader',
-          'stylus-loader',
-          // {
-          //   loader: 'stylus-loader',
-          //   // options: {
-          //   //   // Automatically import these style files globally.
-          //   //   import: [path.resolve('src', 'client', 'styles', 'colors.styl')],
-          //   // },
-          // },
+          {
+            loader: 'stylus-loader',
+            options: {
+              // Automatically import these style files globally.
+              import: [path.resolve('src', 'client', 'styles', 'colors.styl')],
+            },
+          },
         ],
       },
       {

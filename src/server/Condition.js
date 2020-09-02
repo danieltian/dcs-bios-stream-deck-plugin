@@ -18,6 +18,7 @@ class Condition extends EventEmitter {
     // also need to re-bind it or else `this` will be dcsBiosApi instead of this object.
     this.updateFn = debounce(this.updateActiveStatus.bind(this))
 
+    console.log('adding listener for', this.globalId)
     dcsBiosApi.on(this.globalId, this.updateFn)
   }
 
@@ -53,11 +54,13 @@ class Condition extends EventEmitter {
 
     if (this.isActive !== newActive) {
       this.isActive = newActive
+      console.log('emit isActiveChanged')
       this.emit('isActiveChanged')
     }
   }
 
   destroy() {
+    console.log('removing listener for', this.globalId)
     dcsBiosApi.off(this.globalId, this.updateFn)
   }
 }

@@ -4,7 +4,7 @@
     button(@click="changeInput") {{ input.module }} - {{input.category}} - {{ input.description }}
     label Command
     input(v-model="config.command")
-    span.mdi(class="mdi-trash-can-outline" @click="$emit('delete')")
+    Icon(name="trash-can-outline" @click="$emit('delete')")
 </template>
 
 <script>
@@ -28,7 +28,7 @@
 
     methods: {
       changeInput() {
-        this.$controlPickerEventBus.changeInput(this.input, (control) => {
+        this.$eventBus.changeInput(this.input).then((control) => {
           this.config.globalId = control.globalId
         })
       },

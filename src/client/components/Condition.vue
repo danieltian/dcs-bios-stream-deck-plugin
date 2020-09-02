@@ -1,7 +1,7 @@
 <template lang="pug">
   .condition(v-if="output")
     label Global ID
-    button(@click="changeOutput") {{ output.module }} - {{ output.control_description }}
+    button(@click="changeOutput") {{ output.module }} - {{ output.controlDescription }}
     label Condition
     select(v-model="config.condition")
       option(value="eq") is equal to
@@ -14,7 +14,7 @@
       option(value="notcontains") does not contain
     label Value
     input(v-model="config.value")
-    span.mdi(class="mdi-trash-can-outline" @click="$emit('delete')")
+    Icon(name="trash-can-outline" @click="$emit('delete')")
 </template>
 
 <script>
@@ -38,7 +38,7 @@
 
     methods: {
       changeOutput() {
-        this.$controlPickerEventBus.changeOutput(this.output, (control) => {
+        this.$eventBus.changeOutput(this.output).then((control) => {
           this.config.globalId = control.globalId
         })
       },

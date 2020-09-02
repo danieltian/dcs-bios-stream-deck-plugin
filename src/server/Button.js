@@ -36,9 +36,7 @@ class Button extends EventEmitter {
   }
 
   emitDraw() {
-    const mark = performance.mark()
     this.emit('imageChanged', this.stage.toDataURL())
-    console.log(performance.measure(mark))
   }
 
   buttonReady() {

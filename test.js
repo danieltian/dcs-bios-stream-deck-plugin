@@ -65,23 +65,23 @@ function drawImage(image, context) {
 // ---------------------------------------------------------------------------------------------------------------------
 
 eventEmitter.on('keyDown', ({ context }) => {
-  const config = buttons.get(context).settings.inputs.press
+  const configs = buttons.get(context).settings.inputs.press || []
 
-  if (!config.globalId) return
-
-  const id = inputLookup.get(config.globalId).id
-  const action = `${id} ${config.command}`
-  dcsBiosApi.sendMessage(action)
+  configs.forEach((config) => {
+    const id = inputLookup.get(config.globalId).id
+    const action = `${id} ${config.command}`
+    dcsBiosApi.sendMessage(action)
+  })
 })
 
 eventEmitter.on('keyUp', ({ context }) => {
-  const config = buttons.get(context).settings.inputs.release
+  const configs = buttons.get(context).settings.inputs.release || []
 
-  if (!config.globalId) return
-
-  const id = inputLookup.get(config.globalId).id
-  const action = `${id} ${config.command}`
-  dcsBiosApi.sendMessage(action)
+  configs.forEach((config) => {
+    const id = inputLookup.get(config.globalId).id
+    const action = `${id} ${config.command}`
+    dcsBiosApi.sendMessage(action)
+  })
 })
 
 dcsBiosApi.start()
@@ -90,6 +90,7 @@ dcsBiosApi.start()
 // Server for frontend
 // ---------------------------------------------------------------------------------------------------------------------
 
+const watched = new Map()
 const server = new WebSocket.Server({ port: 12345 }) // Create the server that proxies the Stream Deck WebSocket.
 
 server.on('connection', (ws) => {
@@ -120,6 +121,9 @@ server.on('connection', (ws) => {
       const button = buttons.get(currentButtonContext)
       button.destroy()
       buttons.delete(button)
+      const newButton = new Button(data.payload)
+      button.on('imageChanged', (image) => drawImage(image, data.context))
+      buttons.set(currentButtonContext, newButton)
     } else if (data.event === 'sendToPlugin') {
       if (data.payload.action === 'getOutput') {
         const output = outputLookup.get(data.payload.globalId)
@@ -161,6 +165,32 @@ server.on('connection', (ws) => {
             payload: { responseFor: data.payload.requestId, data: moduleNames },
           })
         )
+      } else if (data.payload.action === 'watch') {
+        const { globalId } = data.payload
+        if (watched.has(globalId)) {
+          watched.get(globalId).count += 1
+        } else {
+          const fn = (value) => {
+            ws.send(
+              JSON.stringify({
+                event: 'sendToPropertyInspector',
+                payload: { event: 'update', globalId, value },
+              })
+            )
+          }
+
+          watched.set(data.payload.globalId, { count: 1, callback: fn })
+          dcsBiosApi.on(data.payload.globalId, fn)
+        }
+      } else if (data.payload.action === 'unwatch') {
+        const { globalId } = data.payload
+        const watcher = watched.get(globalId)
+        watcher.count -= 1
+
+        if (watcher.count <= 0) {
+          dcsBiosApi.off(globalId, watcher.callback)
+          watched.delete(globalId)
+        }
       }
     }
   })

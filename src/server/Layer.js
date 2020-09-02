@@ -14,6 +14,7 @@ function isTrue(x) {
 class Layer extends EventEmitter {
   constructor(settings) {
     super()
+    this.name = settings.name
     this.conditionLogic = settings.conditionLogic
 
     this.isVisible = undefined
@@ -45,6 +46,7 @@ class Layer extends EventEmitter {
       this.isVisible = newVisible
 
       const node = await this.nodePromise
+      console.log(`setting ${this.name} visibility to ${newVisible}`)
       node.visible(newVisible)
       this.emit('isVisibleChanged')
     }

@@ -69,15 +69,15 @@ function parseMessage(message, onUpdatesCallback) {
         if (output.type === 'string') {
           // Create a buffer from the existing string, write the updated data to it, then convert it back to a string.
           // Buffer size needs to be the rounded to the next highest even number because of <fill out description here>.
-          const bufferSize = Math.ceil(output.max_length / 2) * 2
+          const bufferSize = Math.ceil(output.maxLength / 2) * 2
           const buffer = Buffer.alloc(bufferSize, ' ')
           buffer.write(output.value || '')
           buffer.writeUInt16LE(rawValue, address - controlAddress)
-          newValue = buffer.toString('utf8', 0, output.max_length).replace(/\0/g, '').trim()
+          newValue = buffer.toString('utf8', 0, output.maxLength).replace(/\0/g, '').trim()
         }
         // This is a number, get the value using the mask and the bit shift amount.
         else {
-          newValue = (rawValue & output.mask) >> output.shift_by
+          newValue = (rawValue & output.mask) >> output.shiftBy
         }
 
         // Only add the output to the updated outputs if the value changed. DCS BIOS will periodically re-send the

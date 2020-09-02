@@ -18,6 +18,8 @@ class Plugin extends EventEmitter {
         this.emit(message.payload.responseFor, message.payload)
       } else if (message.event === 'didReceiveSettings') {
         this.emit('didReceiveSettings', message)
+      } else if (message.payload.event === 'update') {
+        this.emit(message.payload.globalId, message.payload.value)
       }
     })
   }
@@ -66,6 +68,24 @@ class Plugin extends EventEmitter {
       payload: settings,
     }
     websocket.send(JSON.stringify(data))
+  }
+
+  watch(globalId, callback) {
+    const data = {
+      event: 'sendToPlugin',
+      payload: { action: 'watch', globalId },
+    }
+    websocket.send(JSON.stringify(data))
+    this.on(globalId, callback)
+  }
+
+  unwatch(globalId, callback) {
+    const data = {
+      event: 'sendToPlugin',
+      payload: { action: 'unwatch', globalId },
+    }
+    websocket.send(JSON.stringify(data))
+    this.off(globalId, callback)
   }
 }
 

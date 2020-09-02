@@ -1,13 +1,16 @@
-<template>
-
+<template lang="pug">
+  span.mdi(:class="`mdi-${name}`" @click="$emit('click')")
 </template>
 
 <script>
-export default {
-name: "Icon.vue"
-}
+  export default {
+    props: {
+      name: { type: String, required: true },
+    },
+  }
 </script>
 
-<style scoped>
-
+<style lang="stylus" scoped>
+  .mdi
+    cursor: pointer
 </style>

@@ -3,16 +3,16 @@ class Output {
     // Output properties.
     this.description = output.description
     this.mask = output.mask
-    this.max_value = output.max_value
-    this.max_length = output.max_length
-    this.shift_by = output.shift_by
+    this.maxValue = output.max_value
+    this.maxLength = output.max_length
+    this.shiftBy = output.shift_by
     this.suffix = output.suffix
     this.type = output.type
     // Control properties.
     this.category = control.category
-    this.control_type = control.control_type
-    this.control_description = control.description
-    this.physical_variant = control.physical_variant
+    this.controlType = control.control_type
+    this.controlDescription = control.description
+    this.physicalVariant = control.physical_variant
     // Module name.
     this.module = module
     // Global ID, unique ID for this output.
