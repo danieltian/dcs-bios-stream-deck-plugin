@@ -5,10 +5,14 @@
 
     template(v-if="settings")
       .sidebar
+        button(@click="addImageLayer") Add Image Layer
         .layers
           Layer(v-for="(layer, index) in settings.layers" :layer="layer" :key="`${layer.name}:${index}`" @delete="deleteLayer(layer)")
 
       .image-editor
+        v-stage(:config="stageConfig")
+          v-layer
+            KonvaImage(v-for="(layer, index) in settings.layers" :imageSrc="layer.image" :config="layer.config" :key="`${layer.name}:${index}`")
 
       .configuration
 
@@ -68,6 +72,7 @@
       context: '',
       settings: undefined,
       selectedLayer: undefined,
+      stageConfig: { width: 72 * 4, height: 72 * 4, scaleX: 4, scaleY: 4 },
     }),
 
     mounted() {
@@ -82,12 +87,12 @@
         this.$plugin.saveSettings(this.settings, this.context)
       },
 
-      openImageAddDialog() {
-        this.$eventBus.changeImage().then(({ name, base64 }) => {
+      addImageLayer() {
+        this.$eventBus.changeImage().then(({ name, base64: image }) => {
           this.settings.layers.push({
             name,
-            image: base64,
-            source: { x: 0, y: 0, width: 72, height: 72 },
+            image,
+            config: { x: 0, y: 0, width: 72, height: 72 },
             conditionLogic: 'AND',
             conditions: [],
           })
@@ -127,8 +132,9 @@
 </script>
 
 <style lang="stylus">
-  @import '~@mdi/font/css/materialdesignicons.min.css'
-  @import './styles/global'
+  @require '~@mdi/font/css/materialdesignicons.min.css'
+  @require './styles/colors.styl'
+  @require './styles/global.styl'
 
   body
     margin: 0
@@ -153,6 +159,7 @@
 
     .sidebar
       grid-area: sidebar
+      border-right: 2px solid $color-sidebar-border
 
     .image-preview
       grid-area: image-preview

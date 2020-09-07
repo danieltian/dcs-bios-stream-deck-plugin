@@ -1,11 +1,12 @@
 <template lang="pug">
-  v-image(:config="config")
+  v-image(:config="configWithImage")
 </template>
 
 <script>
   export default {
     props: {
       imageSrc: { type: String, required: true },
+      config: { type: Object, required: true }
     },
 
     computed: {
@@ -15,11 +16,10 @@
         return image
       },
 
-      config() {
+      configWithImage() {
         return {
+          ...this.config,
           image: this.image,
-          width: 72,
-          height: 72,
         }
       },
     },
