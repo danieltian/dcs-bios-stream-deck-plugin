@@ -21,7 +21,7 @@ process.argv.forEach((argument) => {
 console.log(chalk`{redBright [Flags]} ${JSON.stringify(flags)}`)
 
 const messages = [JSON.stringify(flags)]
-const server = new WebSocket.Server({ port: 5555 }) // Create the server that proxies the Stream Deck WebSocket.
+const server = new WebSocket.Server({ port: 5656 }) // Create the server that proxies the Stream Deck WebSocket.
 const streamDeckSocket = new WebSocket(`ws://localhost:${flags.port}`) // Connect to the Stream Deck WebSocket.
 
 server.on('connection', (ws) => {

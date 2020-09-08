@@ -5,7 +5,7 @@ const Button = require('./src/server/Button')
 const { modules, outputLookup, inputLookup } = require('./src/server/dcs-bios-api/module-data')
 
 const eventEmitter = new events.EventEmitter()
-const socket = new WebSocket('ws://localhost:5555')
+const socket = new WebSocket('ws://localhost:5656')
 
 socket.on('message', (message) => {
   const data = JSON.parse(message)

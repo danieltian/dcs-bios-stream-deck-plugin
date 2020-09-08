@@ -1,5 +1,5 @@
 <template lang="pug">
-  .layer.flex-center.mb-2
+  .layer.flex-center.mb-2(:class="{ selected: isSelected }" @click="$emit('click')")
     .thumbnail.flex-center-both.mr-2(@click="changeImage")
       img.thumbnail-image(:src="layer.image")
     EditableLabel.flex-1(v-model="layer.name")
@@ -10,6 +10,7 @@
   export default {
     props: {
       layer: { type: Object, required: true },
+      isSelected: { type: Boolean, required: true },
     },
 
     methods: {
@@ -21,6 +22,9 @@
 </script>
 
 <style lang="stylus" scoped>
+  .layer.selected
+    background-color: $color-input-border
+
   .thumbnail
     width: 50px
     height: 50px

@@ -7,12 +7,22 @@
       .sidebar
         button(@click="addImageLayer") Add Image Layer
         .layers
-          Layer(v-for="(layer, index) in settings.layers" :layer="layer" :key="`${layer.name}:${index}`" @delete="deleteLayer(layer)")
+          Layer(v-for="(layer, index) in settings.layers" :layer="layer" :isSelected="layer === selectedLayer" :key="`${layer.name}:${index}`" @delete="deleteLayer(layer)" @click="selectLayer(layer)")
 
       .image-editor
-        v-stage(:config="stageConfig")
+        v-stage.stage(:config="stageConfig" ref="stage" :class="{ move: cursor }")
           v-layer
-            KonvaImage(v-for="(layer, index) in settings.layers" :imageSrc="layer.image" :config="layer.config" :key="`${layer.name}:${index}`")
+            KonvaImage(v-for="(layer, index) in settings.layers" :imageSrc="layer.image" :isSelected="layer === selectedLayer" :config="layer.config" :key="`${layer.name}:${index}`" @mouseenter="showMoveCursor" @mouseleave="hideMoveCursor")
+
+        .settings(v-if="selectedLayer")
+          label X
+          input(type="number" v-model.number="selectedLayer.config.x")
+          label Y
+          input(type="number" v-model.number="selectedLayer.config.y")
+          label Width
+          input(type="number" v-model.number="selectedLayer.config.width")
+          label Height
+          input(type="number" v-model.number="selectedLayer.config.height")
 
       .configuration
 
@@ -61,9 +71,8 @@
           ControlInput(v-for="(input, index) in settings.inputs.release" :key="`release:${index}`" :config="input" @delete="deleteInput(input, 'release')")
           button(@click="addInput(settings.inputs.release)") Add Release
 
-
-        button(@click="saveSettings") Save
     //
+    button(@click="saveSettings") Save
 </template>
 
 <script>
@@ -73,6 +82,7 @@
       settings: undefined,
       selectedLayer: undefined,
       stageConfig: { width: 72 * 4, height: 72 * 4, scaleX: 4, scaleY: 4 },
+      cursor: false
     }),
 
     mounted() {
@@ -127,6 +137,18 @@
       deleteInput(input, category) {
         this.settings.inputs[category] = this.settings.inputs[category].filter((x) => x !== input)
       },
+
+      selectLayer(layer) {
+        this.selectedLayer = layer
+      },
+
+      showMoveCursor() {
+        this.cursor = true
+      },
+
+      hideMoveCursor() {
+        this.cursor = false
+      }
     },
   }
 </script>
@@ -166,4 +188,7 @@
 
     .configuration
       grid-area: configuration
+
+  .stage.move
+    cursor: move
 </style>
